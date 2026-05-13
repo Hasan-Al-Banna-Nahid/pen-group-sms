@@ -52,6 +52,8 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Assessment: 'Assessment',
+  Grade: 'Grade',
+  Module: 'Module',
   Payment: 'Payment',
   Student: 'Student',
   Submission: 'Submission'
@@ -76,11 +78,34 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 export const AssessmentScalarFieldEnum = {
   id: 'id',
   title: 'title',
-  module: 'module',
-  deadline: 'deadline'
+  maxMarks: 'maxMarks',
+  weightage: 'weightage',
+  moduleId: 'moduleId'
 } as const
 
 export type AssessmentScalarFieldEnum = (typeof AssessmentScalarFieldEnum)[keyof typeof AssessmentScalarFieldEnum]
+
+
+export const GradeScalarFieldEnum = {
+  id: 'id',
+  score: 'score',
+  feedback: 'feedback',
+  studentId: 'studentId',
+  assessmentId: 'assessmentId',
+  createdAt: 'createdAt'
+} as const
+
+export type GradeScalarFieldEnum = (typeof GradeScalarFieldEnum)[keyof typeof GradeScalarFieldEnum]
+
+
+export const ModuleScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  name: 'name',
+  credits: 'credits'
+} as const
+
+export type ModuleScalarFieldEnum = (typeof ModuleScalarFieldEnum)[keyof typeof ModuleScalarFieldEnum]
 
 
 export const PaymentScalarFieldEnum = {

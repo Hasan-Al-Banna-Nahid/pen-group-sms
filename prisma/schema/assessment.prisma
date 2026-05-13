@@ -1,8 +1,10 @@
 model Assessment {
-  id       String   @id @default(uuid())
-  title    String
-  module   String
-  deadline DateTime
-
+  id          String       @id @default(cuid())
+  title       String
+  maxMarks    Int
+  weightage   Int
+  moduleId    String
   submissions Submission[]
+  module      Module       @relation(fields: [moduleId], references: [id])
+  grades      Grade[]
 }

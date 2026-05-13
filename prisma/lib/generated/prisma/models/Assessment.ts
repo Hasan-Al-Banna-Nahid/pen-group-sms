@@ -20,52 +20,80 @@ export type AssessmentModel = runtime.Types.Result.DefaultSelection<Prisma.$Asse
 
 export type AggregateAssessment = {
   _count: AssessmentCountAggregateOutputType | null
+  _avg: AssessmentAvgAggregateOutputType | null
+  _sum: AssessmentSumAggregateOutputType | null
   _min: AssessmentMinAggregateOutputType | null
   _max: AssessmentMaxAggregateOutputType | null
+}
+
+export type AssessmentAvgAggregateOutputType = {
+  maxMarks: number | null
+  weightage: number | null
+}
+
+export type AssessmentSumAggregateOutputType = {
+  maxMarks: number | null
+  weightage: number | null
 }
 
 export type AssessmentMinAggregateOutputType = {
   id: string | null
   title: string | null
-  module: string | null
-  deadline: Date | null
+  maxMarks: number | null
+  weightage: number | null
+  moduleId: string | null
 }
 
 export type AssessmentMaxAggregateOutputType = {
   id: string | null
   title: string | null
-  module: string | null
-  deadline: Date | null
+  maxMarks: number | null
+  weightage: number | null
+  moduleId: string | null
 }
 
 export type AssessmentCountAggregateOutputType = {
   id: number
   title: number
-  module: number
-  deadline: number
+  maxMarks: number
+  weightage: number
+  moduleId: number
   _all: number
 }
 
 
+export type AssessmentAvgAggregateInputType = {
+  maxMarks?: true
+  weightage?: true
+}
+
+export type AssessmentSumAggregateInputType = {
+  maxMarks?: true
+  weightage?: true
+}
+
 export type AssessmentMinAggregateInputType = {
   id?: true
   title?: true
-  module?: true
-  deadline?: true
+  maxMarks?: true
+  weightage?: true
+  moduleId?: true
 }
 
 export type AssessmentMaxAggregateInputType = {
   id?: true
   title?: true
-  module?: true
-  deadline?: true
+  maxMarks?: true
+  weightage?: true
+  moduleId?: true
 }
 
 export type AssessmentCountAggregateInputType = {
   id?: true
   title?: true
-  module?: true
-  deadline?: true
+  maxMarks?: true
+  weightage?: true
+  moduleId?: true
   _all?: true
 }
 
@@ -107,6 +135,18 @@ export type AssessmentAggregateArgs<ExtArgs extends runtime.Types.Extensions.Int
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: AssessmentAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: AssessmentSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: AssessmentMinAggregateInputType
@@ -137,6 +177,8 @@ export type AssessmentGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   _count?: AssessmentCountAggregateInputType | true
+  _avg?: AssessmentAvgAggregateInputType
+  _sum?: AssessmentSumAggregateInputType
   _min?: AssessmentMinAggregateInputType
   _max?: AssessmentMaxAggregateInputType
 }
@@ -144,9 +186,12 @@ export type AssessmentGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
 export type AssessmentGroupByOutputType = {
   id: string
   title: string
-  module: string
-  deadline: Date
+  maxMarks: number
+  weightage: number
+  moduleId: string
   _count: AssessmentCountAggregateOutputType | null
+  _avg: AssessmentAvgAggregateOutputType | null
+  _sum: AssessmentSumAggregateOutputType | null
   _min: AssessmentMinAggregateOutputType | null
   _max: AssessmentMaxAggregateOutputType | null
 }
@@ -172,17 +217,23 @@ export type AssessmentWhereInput = {
   NOT?: Prisma.AssessmentWhereInput | Prisma.AssessmentWhereInput[]
   id?: Prisma.StringFilter<"Assessment"> | string
   title?: Prisma.StringFilter<"Assessment"> | string
-  module?: Prisma.StringFilter<"Assessment"> | string
-  deadline?: Prisma.DateTimeFilter<"Assessment"> | Date | string
+  maxMarks?: Prisma.IntFilter<"Assessment"> | number
+  weightage?: Prisma.IntFilter<"Assessment"> | number
+  moduleId?: Prisma.StringFilter<"Assessment"> | string
   submissions?: Prisma.SubmissionListRelationFilter
+  module?: Prisma.XOR<Prisma.ModuleScalarRelationFilter, Prisma.ModuleWhereInput>
+  grades?: Prisma.GradeListRelationFilter
 }
 
 export type AssessmentOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  module?: Prisma.SortOrder
-  deadline?: Prisma.SortOrder
+  maxMarks?: Prisma.SortOrder
+  weightage?: Prisma.SortOrder
+  moduleId?: Prisma.SortOrder
   submissions?: Prisma.SubmissionOrderByRelationAggregateInput
+  module?: Prisma.ModuleOrderByWithRelationInput
+  grades?: Prisma.GradeOrderByRelationAggregateInput
 }
 
 export type AssessmentWhereUniqueInput = Prisma.AtLeast<{
@@ -191,19 +242,25 @@ export type AssessmentWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.AssessmentWhereInput[]
   NOT?: Prisma.AssessmentWhereInput | Prisma.AssessmentWhereInput[]
   title?: Prisma.StringFilter<"Assessment"> | string
-  module?: Prisma.StringFilter<"Assessment"> | string
-  deadline?: Prisma.DateTimeFilter<"Assessment"> | Date | string
+  maxMarks?: Prisma.IntFilter<"Assessment"> | number
+  weightage?: Prisma.IntFilter<"Assessment"> | number
+  moduleId?: Prisma.StringFilter<"Assessment"> | string
   submissions?: Prisma.SubmissionListRelationFilter
+  module?: Prisma.XOR<Prisma.ModuleScalarRelationFilter, Prisma.ModuleWhereInput>
+  grades?: Prisma.GradeListRelationFilter
 }, "id">
 
 export type AssessmentOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  module?: Prisma.SortOrder
-  deadline?: Prisma.SortOrder
+  maxMarks?: Prisma.SortOrder
+  weightage?: Prisma.SortOrder
+  moduleId?: Prisma.SortOrder
   _count?: Prisma.AssessmentCountOrderByAggregateInput
+  _avg?: Prisma.AssessmentAvgOrderByAggregateInput
   _max?: Prisma.AssessmentMaxOrderByAggregateInput
   _min?: Prisma.AssessmentMinOrderByAggregateInput
+  _sum?: Prisma.AssessmentSumOrderByAggregateInput
 }
 
 export type AssessmentScalarWhereWithAggregatesInput = {
@@ -212,82 +269,106 @@ export type AssessmentScalarWhereWithAggregatesInput = {
   NOT?: Prisma.AssessmentScalarWhereWithAggregatesInput | Prisma.AssessmentScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Assessment"> | string
   title?: Prisma.StringWithAggregatesFilter<"Assessment"> | string
-  module?: Prisma.StringWithAggregatesFilter<"Assessment"> | string
-  deadline?: Prisma.DateTimeWithAggregatesFilter<"Assessment"> | Date | string
+  maxMarks?: Prisma.IntWithAggregatesFilter<"Assessment"> | number
+  weightage?: Prisma.IntWithAggregatesFilter<"Assessment"> | number
+  moduleId?: Prisma.StringWithAggregatesFilter<"Assessment"> | string
 }
 
 export type AssessmentCreateInput = {
   id?: string
   title: string
-  module: string
-  deadline: Date | string
+  maxMarks: number
+  weightage: number
   submissions?: Prisma.SubmissionCreateNestedManyWithoutAssessmentInput
+  module: Prisma.ModuleCreateNestedOneWithoutAssessmentsInput
+  grades?: Prisma.GradeCreateNestedManyWithoutAssessmentInput
 }
 
 export type AssessmentUncheckedCreateInput = {
   id?: string
   title: string
-  module: string
-  deadline: Date | string
+  maxMarks: number
+  weightage: number
+  moduleId: string
   submissions?: Prisma.SubmissionUncheckedCreateNestedManyWithoutAssessmentInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutAssessmentInput
 }
 
 export type AssessmentUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  module?: Prisma.StringFieldUpdateOperationsInput | string
-  deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  maxMarks?: Prisma.IntFieldUpdateOperationsInput | number
+  weightage?: Prisma.IntFieldUpdateOperationsInput | number
   submissions?: Prisma.SubmissionUpdateManyWithoutAssessmentNestedInput
+  module?: Prisma.ModuleUpdateOneRequiredWithoutAssessmentsNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutAssessmentNestedInput
 }
 
 export type AssessmentUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  module?: Prisma.StringFieldUpdateOperationsInput | string
-  deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  maxMarks?: Prisma.IntFieldUpdateOperationsInput | number
+  weightage?: Prisma.IntFieldUpdateOperationsInput | number
+  moduleId?: Prisma.StringFieldUpdateOperationsInput | string
   submissions?: Prisma.SubmissionUncheckedUpdateManyWithoutAssessmentNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutAssessmentNestedInput
 }
 
 export type AssessmentCreateManyInput = {
   id?: string
   title: string
-  module: string
-  deadline: Date | string
+  maxMarks: number
+  weightage: number
+  moduleId: string
 }
 
 export type AssessmentUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  module?: Prisma.StringFieldUpdateOperationsInput | string
-  deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  maxMarks?: Prisma.IntFieldUpdateOperationsInput | number
+  weightage?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type AssessmentUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  module?: Prisma.StringFieldUpdateOperationsInput | string
-  deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  maxMarks?: Prisma.IntFieldUpdateOperationsInput | number
+  weightage?: Prisma.IntFieldUpdateOperationsInput | number
+  moduleId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type AssessmentCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  module?: Prisma.SortOrder
-  deadline?: Prisma.SortOrder
+  maxMarks?: Prisma.SortOrder
+  weightage?: Prisma.SortOrder
+  moduleId?: Prisma.SortOrder
+}
+
+export type AssessmentAvgOrderByAggregateInput = {
+  maxMarks?: Prisma.SortOrder
+  weightage?: Prisma.SortOrder
 }
 
 export type AssessmentMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  module?: Prisma.SortOrder
-  deadline?: Prisma.SortOrder
+  maxMarks?: Prisma.SortOrder
+  weightage?: Prisma.SortOrder
+  moduleId?: Prisma.SortOrder
 }
 
 export type AssessmentMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  module?: Prisma.SortOrder
-  deadline?: Prisma.SortOrder
+  maxMarks?: Prisma.SortOrder
+  weightage?: Prisma.SortOrder
+  moduleId?: Prisma.SortOrder
+}
+
+export type AssessmentSumOrderByAggregateInput = {
+  maxMarks?: Prisma.SortOrder
+  weightage?: Prisma.SortOrder
 }
 
 export type AssessmentScalarRelationFilter = {
@@ -295,12 +376,82 @@ export type AssessmentScalarRelationFilter = {
   isNot?: Prisma.AssessmentWhereInput
 }
 
+export type AssessmentListRelationFilter = {
+  every?: Prisma.AssessmentWhereInput
+  some?: Prisma.AssessmentWhereInput
+  none?: Prisma.AssessmentWhereInput
+}
+
+export type AssessmentOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
 export type StringFieldUpdateOperationsInput = {
   set?: string
 }
 
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
+export type AssessmentCreateNestedOneWithoutGradesInput = {
+  create?: Prisma.XOR<Prisma.AssessmentCreateWithoutGradesInput, Prisma.AssessmentUncheckedCreateWithoutGradesInput>
+  connectOrCreate?: Prisma.AssessmentCreateOrConnectWithoutGradesInput
+  connect?: Prisma.AssessmentWhereUniqueInput
+}
+
+export type AssessmentUpdateOneRequiredWithoutGradesNestedInput = {
+  create?: Prisma.XOR<Prisma.AssessmentCreateWithoutGradesInput, Prisma.AssessmentUncheckedCreateWithoutGradesInput>
+  connectOrCreate?: Prisma.AssessmentCreateOrConnectWithoutGradesInput
+  upsert?: Prisma.AssessmentUpsertWithoutGradesInput
+  connect?: Prisma.AssessmentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AssessmentUpdateToOneWithWhereWithoutGradesInput, Prisma.AssessmentUpdateWithoutGradesInput>, Prisma.AssessmentUncheckedUpdateWithoutGradesInput>
+}
+
+export type AssessmentCreateNestedManyWithoutModuleInput = {
+  create?: Prisma.XOR<Prisma.AssessmentCreateWithoutModuleInput, Prisma.AssessmentUncheckedCreateWithoutModuleInput> | Prisma.AssessmentCreateWithoutModuleInput[] | Prisma.AssessmentUncheckedCreateWithoutModuleInput[]
+  connectOrCreate?: Prisma.AssessmentCreateOrConnectWithoutModuleInput | Prisma.AssessmentCreateOrConnectWithoutModuleInput[]
+  createMany?: Prisma.AssessmentCreateManyModuleInputEnvelope
+  connect?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
+}
+
+export type AssessmentUncheckedCreateNestedManyWithoutModuleInput = {
+  create?: Prisma.XOR<Prisma.AssessmentCreateWithoutModuleInput, Prisma.AssessmentUncheckedCreateWithoutModuleInput> | Prisma.AssessmentCreateWithoutModuleInput[] | Prisma.AssessmentUncheckedCreateWithoutModuleInput[]
+  connectOrCreate?: Prisma.AssessmentCreateOrConnectWithoutModuleInput | Prisma.AssessmentCreateOrConnectWithoutModuleInput[]
+  createMany?: Prisma.AssessmentCreateManyModuleInputEnvelope
+  connect?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
+}
+
+export type AssessmentUpdateManyWithoutModuleNestedInput = {
+  create?: Prisma.XOR<Prisma.AssessmentCreateWithoutModuleInput, Prisma.AssessmentUncheckedCreateWithoutModuleInput> | Prisma.AssessmentCreateWithoutModuleInput[] | Prisma.AssessmentUncheckedCreateWithoutModuleInput[]
+  connectOrCreate?: Prisma.AssessmentCreateOrConnectWithoutModuleInput | Prisma.AssessmentCreateOrConnectWithoutModuleInput[]
+  upsert?: Prisma.AssessmentUpsertWithWhereUniqueWithoutModuleInput | Prisma.AssessmentUpsertWithWhereUniqueWithoutModuleInput[]
+  createMany?: Prisma.AssessmentCreateManyModuleInputEnvelope
+  set?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
+  disconnect?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
+  delete?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
+  connect?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
+  update?: Prisma.AssessmentUpdateWithWhereUniqueWithoutModuleInput | Prisma.AssessmentUpdateWithWhereUniqueWithoutModuleInput[]
+  updateMany?: Prisma.AssessmentUpdateManyWithWhereWithoutModuleInput | Prisma.AssessmentUpdateManyWithWhereWithoutModuleInput[]
+  deleteMany?: Prisma.AssessmentScalarWhereInput | Prisma.AssessmentScalarWhereInput[]
+}
+
+export type AssessmentUncheckedUpdateManyWithoutModuleNestedInput = {
+  create?: Prisma.XOR<Prisma.AssessmentCreateWithoutModuleInput, Prisma.AssessmentUncheckedCreateWithoutModuleInput> | Prisma.AssessmentCreateWithoutModuleInput[] | Prisma.AssessmentUncheckedCreateWithoutModuleInput[]
+  connectOrCreate?: Prisma.AssessmentCreateOrConnectWithoutModuleInput | Prisma.AssessmentCreateOrConnectWithoutModuleInput[]
+  upsert?: Prisma.AssessmentUpsertWithWhereUniqueWithoutModuleInput | Prisma.AssessmentUpsertWithWhereUniqueWithoutModuleInput[]
+  createMany?: Prisma.AssessmentCreateManyModuleInputEnvelope
+  set?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
+  disconnect?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
+  delete?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
+  connect?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
+  update?: Prisma.AssessmentUpdateWithWhereUniqueWithoutModuleInput | Prisma.AssessmentUpdateWithWhereUniqueWithoutModuleInput[]
+  updateMany?: Prisma.AssessmentUpdateManyWithWhereWithoutModuleInput | Prisma.AssessmentUpdateManyWithWhereWithoutModuleInput[]
+  deleteMany?: Prisma.AssessmentScalarWhereInput | Prisma.AssessmentScalarWhereInput[]
 }
 
 export type AssessmentCreateNestedOneWithoutSubmissionsInput = {
@@ -317,18 +468,129 @@ export type AssessmentUpdateOneRequiredWithoutSubmissionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.AssessmentUpdateToOneWithWhereWithoutSubmissionsInput, Prisma.AssessmentUpdateWithoutSubmissionsInput>, Prisma.AssessmentUncheckedUpdateWithoutSubmissionsInput>
 }
 
+export type AssessmentCreateWithoutGradesInput = {
+  id?: string
+  title: string
+  maxMarks: number
+  weightage: number
+  submissions?: Prisma.SubmissionCreateNestedManyWithoutAssessmentInput
+  module: Prisma.ModuleCreateNestedOneWithoutAssessmentsInput
+}
+
+export type AssessmentUncheckedCreateWithoutGradesInput = {
+  id?: string
+  title: string
+  maxMarks: number
+  weightage: number
+  moduleId: string
+  submissions?: Prisma.SubmissionUncheckedCreateNestedManyWithoutAssessmentInput
+}
+
+export type AssessmentCreateOrConnectWithoutGradesInput = {
+  where: Prisma.AssessmentWhereUniqueInput
+  create: Prisma.XOR<Prisma.AssessmentCreateWithoutGradesInput, Prisma.AssessmentUncheckedCreateWithoutGradesInput>
+}
+
+export type AssessmentUpsertWithoutGradesInput = {
+  update: Prisma.XOR<Prisma.AssessmentUpdateWithoutGradesInput, Prisma.AssessmentUncheckedUpdateWithoutGradesInput>
+  create: Prisma.XOR<Prisma.AssessmentCreateWithoutGradesInput, Prisma.AssessmentUncheckedCreateWithoutGradesInput>
+  where?: Prisma.AssessmentWhereInput
+}
+
+export type AssessmentUpdateToOneWithWhereWithoutGradesInput = {
+  where?: Prisma.AssessmentWhereInput
+  data: Prisma.XOR<Prisma.AssessmentUpdateWithoutGradesInput, Prisma.AssessmentUncheckedUpdateWithoutGradesInput>
+}
+
+export type AssessmentUpdateWithoutGradesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  maxMarks?: Prisma.IntFieldUpdateOperationsInput | number
+  weightage?: Prisma.IntFieldUpdateOperationsInput | number
+  submissions?: Prisma.SubmissionUpdateManyWithoutAssessmentNestedInput
+  module?: Prisma.ModuleUpdateOneRequiredWithoutAssessmentsNestedInput
+}
+
+export type AssessmentUncheckedUpdateWithoutGradesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  maxMarks?: Prisma.IntFieldUpdateOperationsInput | number
+  weightage?: Prisma.IntFieldUpdateOperationsInput | number
+  moduleId?: Prisma.StringFieldUpdateOperationsInput | string
+  submissions?: Prisma.SubmissionUncheckedUpdateManyWithoutAssessmentNestedInput
+}
+
+export type AssessmentCreateWithoutModuleInput = {
+  id?: string
+  title: string
+  maxMarks: number
+  weightage: number
+  submissions?: Prisma.SubmissionCreateNestedManyWithoutAssessmentInput
+  grades?: Prisma.GradeCreateNestedManyWithoutAssessmentInput
+}
+
+export type AssessmentUncheckedCreateWithoutModuleInput = {
+  id?: string
+  title: string
+  maxMarks: number
+  weightage: number
+  submissions?: Prisma.SubmissionUncheckedCreateNestedManyWithoutAssessmentInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutAssessmentInput
+}
+
+export type AssessmentCreateOrConnectWithoutModuleInput = {
+  where: Prisma.AssessmentWhereUniqueInput
+  create: Prisma.XOR<Prisma.AssessmentCreateWithoutModuleInput, Prisma.AssessmentUncheckedCreateWithoutModuleInput>
+}
+
+export type AssessmentCreateManyModuleInputEnvelope = {
+  data: Prisma.AssessmentCreateManyModuleInput | Prisma.AssessmentCreateManyModuleInput[]
+  skipDuplicates?: boolean
+}
+
+export type AssessmentUpsertWithWhereUniqueWithoutModuleInput = {
+  where: Prisma.AssessmentWhereUniqueInput
+  update: Prisma.XOR<Prisma.AssessmentUpdateWithoutModuleInput, Prisma.AssessmentUncheckedUpdateWithoutModuleInput>
+  create: Prisma.XOR<Prisma.AssessmentCreateWithoutModuleInput, Prisma.AssessmentUncheckedCreateWithoutModuleInput>
+}
+
+export type AssessmentUpdateWithWhereUniqueWithoutModuleInput = {
+  where: Prisma.AssessmentWhereUniqueInput
+  data: Prisma.XOR<Prisma.AssessmentUpdateWithoutModuleInput, Prisma.AssessmentUncheckedUpdateWithoutModuleInput>
+}
+
+export type AssessmentUpdateManyWithWhereWithoutModuleInput = {
+  where: Prisma.AssessmentScalarWhereInput
+  data: Prisma.XOR<Prisma.AssessmentUpdateManyMutationInput, Prisma.AssessmentUncheckedUpdateManyWithoutModuleInput>
+}
+
+export type AssessmentScalarWhereInput = {
+  AND?: Prisma.AssessmentScalarWhereInput | Prisma.AssessmentScalarWhereInput[]
+  OR?: Prisma.AssessmentScalarWhereInput[]
+  NOT?: Prisma.AssessmentScalarWhereInput | Prisma.AssessmentScalarWhereInput[]
+  id?: Prisma.StringFilter<"Assessment"> | string
+  title?: Prisma.StringFilter<"Assessment"> | string
+  maxMarks?: Prisma.IntFilter<"Assessment"> | number
+  weightage?: Prisma.IntFilter<"Assessment"> | number
+  moduleId?: Prisma.StringFilter<"Assessment"> | string
+}
+
 export type AssessmentCreateWithoutSubmissionsInput = {
   id?: string
   title: string
-  module: string
-  deadline: Date | string
+  maxMarks: number
+  weightage: number
+  module: Prisma.ModuleCreateNestedOneWithoutAssessmentsInput
+  grades?: Prisma.GradeCreateNestedManyWithoutAssessmentInput
 }
 
 export type AssessmentUncheckedCreateWithoutSubmissionsInput = {
   id?: string
   title: string
-  module: string
-  deadline: Date | string
+  maxMarks: number
+  weightage: number
+  moduleId: string
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutAssessmentInput
 }
 
 export type AssessmentCreateOrConnectWithoutSubmissionsInput = {
@@ -350,15 +612,51 @@ export type AssessmentUpdateToOneWithWhereWithoutSubmissionsInput = {
 export type AssessmentUpdateWithoutSubmissionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  module?: Prisma.StringFieldUpdateOperationsInput | string
-  deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  maxMarks?: Prisma.IntFieldUpdateOperationsInput | number
+  weightage?: Prisma.IntFieldUpdateOperationsInput | number
+  module?: Prisma.ModuleUpdateOneRequiredWithoutAssessmentsNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutAssessmentNestedInput
 }
 
 export type AssessmentUncheckedUpdateWithoutSubmissionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  module?: Prisma.StringFieldUpdateOperationsInput | string
-  deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  maxMarks?: Prisma.IntFieldUpdateOperationsInput | number
+  weightage?: Prisma.IntFieldUpdateOperationsInput | number
+  moduleId?: Prisma.StringFieldUpdateOperationsInput | string
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutAssessmentNestedInput
+}
+
+export type AssessmentCreateManyModuleInput = {
+  id?: string
+  title: string
+  maxMarks: number
+  weightage: number
+}
+
+export type AssessmentUpdateWithoutModuleInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  maxMarks?: Prisma.IntFieldUpdateOperationsInput | number
+  weightage?: Prisma.IntFieldUpdateOperationsInput | number
+  submissions?: Prisma.SubmissionUpdateManyWithoutAssessmentNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutAssessmentNestedInput
+}
+
+export type AssessmentUncheckedUpdateWithoutModuleInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  maxMarks?: Prisma.IntFieldUpdateOperationsInput | number
+  weightage?: Prisma.IntFieldUpdateOperationsInput | number
+  submissions?: Prisma.SubmissionUncheckedUpdateManyWithoutAssessmentNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutAssessmentNestedInput
+}
+
+export type AssessmentUncheckedUpdateManyWithoutModuleInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  maxMarks?: Prisma.IntFieldUpdateOperationsInput | number
+  weightage?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 
@@ -368,10 +666,12 @@ export type AssessmentUncheckedUpdateWithoutSubmissionsInput = {
 
 export type AssessmentCountOutputType = {
   submissions: number
+  grades: number
 }
 
 export type AssessmentCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   submissions?: boolean | AssessmentCountOutputTypeCountSubmissionsArgs
+  grades?: boolean | AssessmentCountOutputTypeCountGradesArgs
 }
 
 /**
@@ -391,55 +691,79 @@ export type AssessmentCountOutputTypeCountSubmissionsArgs<ExtArgs extends runtim
   where?: Prisma.SubmissionWhereInput
 }
 
+/**
+ * AssessmentCountOutputType without action
+ */
+export type AssessmentCountOutputTypeCountGradesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.GradeWhereInput
+}
+
 
 export type AssessmentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
-  module?: boolean
-  deadline?: boolean
+  maxMarks?: boolean
+  weightage?: boolean
+  moduleId?: boolean
   submissions?: boolean | Prisma.Assessment$submissionsArgs<ExtArgs>
+  module?: boolean | Prisma.ModuleDefaultArgs<ExtArgs>
+  grades?: boolean | Prisma.Assessment$gradesArgs<ExtArgs>
   _count?: boolean | Prisma.AssessmentCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["assessment"]>
 
 export type AssessmentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
-  module?: boolean
-  deadline?: boolean
+  maxMarks?: boolean
+  weightage?: boolean
+  moduleId?: boolean
+  module?: boolean | Prisma.ModuleDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["assessment"]>
 
 export type AssessmentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
-  module?: boolean
-  deadline?: boolean
+  maxMarks?: boolean
+  weightage?: boolean
+  moduleId?: boolean
+  module?: boolean | Prisma.ModuleDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["assessment"]>
 
 export type AssessmentSelectScalar = {
   id?: boolean
   title?: boolean
-  module?: boolean
-  deadline?: boolean
+  maxMarks?: boolean
+  weightage?: boolean
+  moduleId?: boolean
 }
 
-export type AssessmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "module" | "deadline", ExtArgs["result"]["assessment"]>
+export type AssessmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "maxMarks" | "weightage" | "moduleId", ExtArgs["result"]["assessment"]>
 export type AssessmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   submissions?: boolean | Prisma.Assessment$submissionsArgs<ExtArgs>
+  module?: boolean | Prisma.ModuleDefaultArgs<ExtArgs>
+  grades?: boolean | Prisma.Assessment$gradesArgs<ExtArgs>
   _count?: boolean | Prisma.AssessmentCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type AssessmentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type AssessmentIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type AssessmentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  module?: boolean | Prisma.ModuleDefaultArgs<ExtArgs>
+}
+export type AssessmentIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  module?: boolean | Prisma.ModuleDefaultArgs<ExtArgs>
+}
 
 export type $AssessmentPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Assessment"
   objects: {
     submissions: Prisma.$SubmissionPayload<ExtArgs>[]
+    module: Prisma.$ModulePayload<ExtArgs>
+    grades: Prisma.$GradePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     title: string
-    module: string
-    deadline: Date
+    maxMarks: number
+    weightage: number
+    moduleId: string
   }, ExtArgs["result"]["assessment"]>
   composites: {}
 }
@@ -835,6 +1159,8 @@ readonly fields: AssessmentFieldRefs;
 export interface Prisma__AssessmentClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   submissions<T extends Prisma.Assessment$submissionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Assessment$submissionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  module<T extends Prisma.ModuleDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ModuleDefaultArgs<ExtArgs>>): Prisma.Prisma__ModuleClient<runtime.Types.Result.GetResult<Prisma.$ModulePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  grades<T extends Prisma.Assessment$gradesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Assessment$gradesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GradePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -866,8 +1192,9 @@ export interface Prisma__AssessmentClient<T, Null = never, ExtArgs extends runti
 export interface AssessmentFieldRefs {
   readonly id: Prisma.FieldRef<"Assessment", 'String'>
   readonly title: Prisma.FieldRef<"Assessment", 'String'>
-  readonly module: Prisma.FieldRef<"Assessment", 'String'>
-  readonly deadline: Prisma.FieldRef<"Assessment", 'DateTime'>
+  readonly maxMarks: Prisma.FieldRef<"Assessment", 'Int'>
+  readonly weightage: Prisma.FieldRef<"Assessment", 'Int'>
+  readonly moduleId: Prisma.FieldRef<"Assessment", 'String'>
 }
     
 
@@ -1122,6 +1449,10 @@ export type AssessmentCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Exte
    */
   data: Prisma.AssessmentCreateManyInput | Prisma.AssessmentCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssessmentIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1192,6 +1523,10 @@ export type AssessmentUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Exte
    * Limit how many Assessments to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssessmentIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1282,6 +1617,30 @@ export type Assessment$submissionsArgs<ExtArgs extends runtime.Types.Extensions.
   take?: number
   skip?: number
   distinct?: Prisma.SubmissionScalarFieldEnum | Prisma.SubmissionScalarFieldEnum[]
+}
+
+/**
+ * Assessment.grades
+ */
+export type Assessment$gradesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Grade
+   */
+  select?: Prisma.GradeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Grade
+   */
+  omit?: Prisma.GradeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.GradeInclude<ExtArgs> | null
+  where?: Prisma.GradeWhereInput
+  orderBy?: Prisma.GradeOrderByWithRelationInput | Prisma.GradeOrderByWithRelationInput[]
+  cursor?: Prisma.GradeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.GradeScalarFieldEnum | Prisma.GradeScalarFieldEnum[]
 }
 
 /**

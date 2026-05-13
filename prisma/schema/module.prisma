@@ -1,0 +1,7 @@
+model Module {
+    id          String       @id @default(cuid())
+    code        String       @unique
+    name        String
+    credits     Int
+    assessments Assessment[]
+}

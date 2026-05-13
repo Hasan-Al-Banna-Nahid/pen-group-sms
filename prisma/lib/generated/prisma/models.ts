@@ -9,6 +9,8 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/Assessment'
+export type * from './models/Grade'
+export type * from './models/Module'
 export type * from './models/Payment'
 export type * from './models/Student'
 export type * from './models/Submission'

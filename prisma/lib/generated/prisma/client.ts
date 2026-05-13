@@ -47,6 +47,16 @@ export { Prisma }
  */
 export type Assessment = Prisma.AssessmentModel
 /**
+ * Model Grade
+ * 
+ */
+export type Grade = Prisma.GradeModel
+/**
+ * Model Module
+ * 
+ */
+export type Module = Prisma.ModuleModel
+/**
  * Model Payment
  * 
  */

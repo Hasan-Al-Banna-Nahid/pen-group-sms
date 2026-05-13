@@ -8,8 +8,8 @@ model Student {
     academicYear String
     status       EnrolmentStatus @default(ENROLLED)
     feeAmount    Float
-
-    payments    Payment[]
-    submissions Submission[]
-    createdAt   DateTime     @default(now())
+    grades       Grade[]
+    payments     Payment[]
+    submissions  Submission[]
+    createdAt    DateTime        @default(now())
 }

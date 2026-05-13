@@ -361,14 +361,6 @@ export type PaymentOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type FloatFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type PaymentCreateNestedManyWithoutStudentInput = {
   create?: Prisma.XOR<Prisma.PaymentCreateWithoutStudentInput, Prisma.PaymentUncheckedCreateWithoutStudentInput> | Prisma.PaymentCreateWithoutStudentInput[] | Prisma.PaymentUncheckedCreateWithoutStudentInput[]
   connectOrCreate?: Prisma.PaymentCreateOrConnectWithoutStudentInput | Prisma.PaymentCreateOrConnectWithoutStudentInput[]
