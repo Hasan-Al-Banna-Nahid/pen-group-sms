@@ -40,6 +40,7 @@ export type GradeMinAggregateOutputType = {
   feedback: string | null
   studentId: string | null
   assessmentId: string | null
+  isPublished: boolean | null
   createdAt: Date | null
 }
 
@@ -49,6 +50,7 @@ export type GradeMaxAggregateOutputType = {
   feedback: string | null
   studentId: string | null
   assessmentId: string | null
+  isPublished: boolean | null
   createdAt: Date | null
 }
 
@@ -58,6 +60,7 @@ export type GradeCountAggregateOutputType = {
   feedback: number
   studentId: number
   assessmentId: number
+  isPublished: number
   createdAt: number
   _all: number
 }
@@ -77,6 +80,7 @@ export type GradeMinAggregateInputType = {
   feedback?: true
   studentId?: true
   assessmentId?: true
+  isPublished?: true
   createdAt?: true
 }
 
@@ -86,6 +90,7 @@ export type GradeMaxAggregateInputType = {
   feedback?: true
   studentId?: true
   assessmentId?: true
+  isPublished?: true
   createdAt?: true
 }
 
@@ -95,6 +100,7 @@ export type GradeCountAggregateInputType = {
   feedback?: true
   studentId?: true
   assessmentId?: true
+  isPublished?: true
   createdAt?: true
   _all?: true
 }
@@ -191,6 +197,7 @@ export type GradeGroupByOutputType = {
   feedback: string | null
   studentId: string
   assessmentId: string
+  isPublished: boolean
   createdAt: Date
   _count: GradeCountAggregateOutputType | null
   _avg: GradeAvgAggregateOutputType | null
@@ -223,6 +230,7 @@ export type GradeWhereInput = {
   feedback?: Prisma.StringNullableFilter<"Grade"> | string | null
   studentId?: Prisma.StringFilter<"Grade"> | string
   assessmentId?: Prisma.StringFilter<"Grade"> | string
+  isPublished?: Prisma.BoolFilter<"Grade"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Grade"> | Date | string
   student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
   assessment?: Prisma.XOR<Prisma.AssessmentScalarRelationFilter, Prisma.AssessmentWhereInput>
@@ -234,6 +242,7 @@ export type GradeOrderByWithRelationInput = {
   feedback?: Prisma.SortOrderInput | Prisma.SortOrder
   studentId?: Prisma.SortOrder
   assessmentId?: Prisma.SortOrder
+  isPublished?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   student?: Prisma.StudentOrderByWithRelationInput
   assessment?: Prisma.AssessmentOrderByWithRelationInput
@@ -249,6 +258,7 @@ export type GradeWhereUniqueInput = Prisma.AtLeast<{
   feedback?: Prisma.StringNullableFilter<"Grade"> | string | null
   studentId?: Prisma.StringFilter<"Grade"> | string
   assessmentId?: Prisma.StringFilter<"Grade"> | string
+  isPublished?: Prisma.BoolFilter<"Grade"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Grade"> | Date | string
   student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
   assessment?: Prisma.XOR<Prisma.AssessmentScalarRelationFilter, Prisma.AssessmentWhereInput>
@@ -260,6 +270,7 @@ export type GradeOrderByWithAggregationInput = {
   feedback?: Prisma.SortOrderInput | Prisma.SortOrder
   studentId?: Prisma.SortOrder
   assessmentId?: Prisma.SortOrder
+  isPublished?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.GradeCountOrderByAggregateInput
   _avg?: Prisma.GradeAvgOrderByAggregateInput
@@ -277,6 +288,7 @@ export type GradeScalarWhereWithAggregatesInput = {
   feedback?: Prisma.StringNullableWithAggregatesFilter<"Grade"> | string | null
   studentId?: Prisma.StringWithAggregatesFilter<"Grade"> | string
   assessmentId?: Prisma.StringWithAggregatesFilter<"Grade"> | string
+  isPublished?: Prisma.BoolWithAggregatesFilter<"Grade"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Grade"> | Date | string
 }
 
@@ -284,6 +296,7 @@ export type GradeCreateInput = {
   id?: string
   score: number
   feedback?: string | null
+  isPublished?: boolean
   createdAt?: Date | string
   student: Prisma.StudentCreateNestedOneWithoutGradesInput
   assessment: Prisma.AssessmentCreateNestedOneWithoutGradesInput
@@ -295,6 +308,7 @@ export type GradeUncheckedCreateInput = {
   feedback?: string | null
   studentId: string
   assessmentId: string
+  isPublished?: boolean
   createdAt?: Date | string
 }
 
@@ -302,6 +316,7 @@ export type GradeUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   score?: Prisma.FloatFieldUpdateOperationsInput | number
   feedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   student?: Prisma.StudentUpdateOneRequiredWithoutGradesNestedInput
   assessment?: Prisma.AssessmentUpdateOneRequiredWithoutGradesNestedInput
@@ -313,6 +328,7 @@ export type GradeUncheckedUpdateInput = {
   feedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
   assessmentId?: Prisma.StringFieldUpdateOperationsInput | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -322,6 +338,7 @@ export type GradeCreateManyInput = {
   feedback?: string | null
   studentId: string
   assessmentId: string
+  isPublished?: boolean
   createdAt?: Date | string
 }
 
@@ -329,6 +346,7 @@ export type GradeUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   score?: Prisma.FloatFieldUpdateOperationsInput | number
   feedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -338,6 +356,7 @@ export type GradeUncheckedUpdateManyInput = {
   feedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
   assessmentId?: Prisma.StringFieldUpdateOperationsInput | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -362,6 +381,7 @@ export type GradeCountOrderByAggregateInput = {
   feedback?: Prisma.SortOrder
   studentId?: Prisma.SortOrder
   assessmentId?: Prisma.SortOrder
+  isPublished?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -375,6 +395,7 @@ export type GradeMaxOrderByAggregateInput = {
   feedback?: Prisma.SortOrder
   studentId?: Prisma.SortOrder
   assessmentId?: Prisma.SortOrder
+  isPublished?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -384,6 +405,7 @@ export type GradeMinOrderByAggregateInput = {
   feedback?: Prisma.SortOrder
   studentId?: Prisma.SortOrder
   assessmentId?: Prisma.SortOrder
+  isPublished?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -445,8 +467,8 @@ export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
 }
 
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
 }
 
 export type GradeCreateNestedManyWithoutStudentInput = {
@@ -495,6 +517,7 @@ export type GradeCreateWithoutAssessmentInput = {
   id?: string
   score: number
   feedback?: string | null
+  isPublished?: boolean
   createdAt?: Date | string
   student: Prisma.StudentCreateNestedOneWithoutGradesInput
 }
@@ -504,6 +527,7 @@ export type GradeUncheckedCreateWithoutAssessmentInput = {
   score: number
   feedback?: string | null
   studentId: string
+  isPublished?: boolean
   createdAt?: Date | string
 }
 
@@ -542,6 +566,7 @@ export type GradeScalarWhereInput = {
   feedback?: Prisma.StringNullableFilter<"Grade"> | string | null
   studentId?: Prisma.StringFilter<"Grade"> | string
   assessmentId?: Prisma.StringFilter<"Grade"> | string
+  isPublished?: Prisma.BoolFilter<"Grade"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Grade"> | Date | string
 }
 
@@ -549,6 +574,7 @@ export type GradeCreateWithoutStudentInput = {
   id?: string
   score: number
   feedback?: string | null
+  isPublished?: boolean
   createdAt?: Date | string
   assessment: Prisma.AssessmentCreateNestedOneWithoutGradesInput
 }
@@ -558,6 +584,7 @@ export type GradeUncheckedCreateWithoutStudentInput = {
   score: number
   feedback?: string | null
   assessmentId: string
+  isPublished?: boolean
   createdAt?: Date | string
 }
 
@@ -592,6 +619,7 @@ export type GradeCreateManyAssessmentInput = {
   score: number
   feedback?: string | null
   studentId: string
+  isPublished?: boolean
   createdAt?: Date | string
 }
 
@@ -599,6 +627,7 @@ export type GradeUpdateWithoutAssessmentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   score?: Prisma.FloatFieldUpdateOperationsInput | number
   feedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   student?: Prisma.StudentUpdateOneRequiredWithoutGradesNestedInput
 }
@@ -608,6 +637,7 @@ export type GradeUncheckedUpdateWithoutAssessmentInput = {
   score?: Prisma.FloatFieldUpdateOperationsInput | number
   feedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -616,6 +646,7 @@ export type GradeUncheckedUpdateManyWithoutAssessmentInput = {
   score?: Prisma.FloatFieldUpdateOperationsInput | number
   feedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -624,6 +655,7 @@ export type GradeCreateManyStudentInput = {
   score: number
   feedback?: string | null
   assessmentId: string
+  isPublished?: boolean
   createdAt?: Date | string
 }
 
@@ -631,6 +663,7 @@ export type GradeUpdateWithoutStudentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   score?: Prisma.FloatFieldUpdateOperationsInput | number
   feedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assessment?: Prisma.AssessmentUpdateOneRequiredWithoutGradesNestedInput
 }
@@ -640,6 +673,7 @@ export type GradeUncheckedUpdateWithoutStudentInput = {
   score?: Prisma.FloatFieldUpdateOperationsInput | number
   feedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assessmentId?: Prisma.StringFieldUpdateOperationsInput | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -648,6 +682,7 @@ export type GradeUncheckedUpdateManyWithoutStudentInput = {
   score?: Prisma.FloatFieldUpdateOperationsInput | number
   feedback?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assessmentId?: Prisma.StringFieldUpdateOperationsInput | string
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -659,6 +694,7 @@ export type GradeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   feedback?: boolean
   studentId?: boolean
   assessmentId?: boolean
+  isPublished?: boolean
   createdAt?: boolean
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   assessment?: boolean | Prisma.AssessmentDefaultArgs<ExtArgs>
@@ -670,6 +706,7 @@ export type GradeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   feedback?: boolean
   studentId?: boolean
   assessmentId?: boolean
+  isPublished?: boolean
   createdAt?: boolean
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   assessment?: boolean | Prisma.AssessmentDefaultArgs<ExtArgs>
@@ -681,6 +718,7 @@ export type GradeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   feedback?: boolean
   studentId?: boolean
   assessmentId?: boolean
+  isPublished?: boolean
   createdAt?: boolean
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   assessment?: boolean | Prisma.AssessmentDefaultArgs<ExtArgs>
@@ -692,10 +730,11 @@ export type GradeSelectScalar = {
   feedback?: boolean
   studentId?: boolean
   assessmentId?: boolean
+  isPublished?: boolean
   createdAt?: boolean
 }
 
-export type GradeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "score" | "feedback" | "studentId" | "assessmentId" | "createdAt", ExtArgs["result"]["grade"]>
+export type GradeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "score" | "feedback" | "studentId" | "assessmentId" | "isPublished" | "createdAt", ExtArgs["result"]["grade"]>
 export type GradeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   assessment?: boolean | Prisma.AssessmentDefaultArgs<ExtArgs>
@@ -721,6 +760,7 @@ export type $GradePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     feedback: string | null
     studentId: string
     assessmentId: string
+    isPublished: boolean
     createdAt: Date
   }, ExtArgs["result"]["grade"]>
   composites: {}
@@ -1152,6 +1192,7 @@ export interface GradeFieldRefs {
   readonly feedback: Prisma.FieldRef<"Grade", 'String'>
   readonly studentId: Prisma.FieldRef<"Grade", 'String'>
   readonly assessmentId: Prisma.FieldRef<"Grade", 'String'>
+  readonly isPublished: Prisma.FieldRef<"Grade", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Grade", 'DateTime'>
 }
     

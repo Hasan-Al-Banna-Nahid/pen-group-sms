@@ -42,6 +42,7 @@ export type AssessmentMinAggregateOutputType = {
   maxMarks: number | null
   weightage: number | null
   moduleId: string | null
+  deadline: Date | null
 }
 
 export type AssessmentMaxAggregateOutputType = {
@@ -50,6 +51,7 @@ export type AssessmentMaxAggregateOutputType = {
   maxMarks: number | null
   weightage: number | null
   moduleId: string | null
+  deadline: Date | null
 }
 
 export type AssessmentCountAggregateOutputType = {
@@ -58,6 +60,7 @@ export type AssessmentCountAggregateOutputType = {
   maxMarks: number
   weightage: number
   moduleId: number
+  deadline: number
   _all: number
 }
 
@@ -78,6 +81,7 @@ export type AssessmentMinAggregateInputType = {
   maxMarks?: true
   weightage?: true
   moduleId?: true
+  deadline?: true
 }
 
 export type AssessmentMaxAggregateInputType = {
@@ -86,6 +90,7 @@ export type AssessmentMaxAggregateInputType = {
   maxMarks?: true
   weightage?: true
   moduleId?: true
+  deadline?: true
 }
 
 export type AssessmentCountAggregateInputType = {
@@ -94,6 +99,7 @@ export type AssessmentCountAggregateInputType = {
   maxMarks?: true
   weightage?: true
   moduleId?: true
+  deadline?: true
   _all?: true
 }
 
@@ -189,6 +195,7 @@ export type AssessmentGroupByOutputType = {
   maxMarks: number
   weightage: number
   moduleId: string
+  deadline: Date
   _count: AssessmentCountAggregateOutputType | null
   _avg: AssessmentAvgAggregateOutputType | null
   _sum: AssessmentSumAggregateOutputType | null
@@ -220,6 +227,7 @@ export type AssessmentWhereInput = {
   maxMarks?: Prisma.IntFilter<"Assessment"> | number
   weightage?: Prisma.IntFilter<"Assessment"> | number
   moduleId?: Prisma.StringFilter<"Assessment"> | string
+  deadline?: Prisma.DateTimeFilter<"Assessment"> | Date | string
   submissions?: Prisma.SubmissionListRelationFilter
   module?: Prisma.XOR<Prisma.ModuleScalarRelationFilter, Prisma.ModuleWhereInput>
   grades?: Prisma.GradeListRelationFilter
@@ -231,6 +239,7 @@ export type AssessmentOrderByWithRelationInput = {
   maxMarks?: Prisma.SortOrder
   weightage?: Prisma.SortOrder
   moduleId?: Prisma.SortOrder
+  deadline?: Prisma.SortOrder
   submissions?: Prisma.SubmissionOrderByRelationAggregateInput
   module?: Prisma.ModuleOrderByWithRelationInput
   grades?: Prisma.GradeOrderByRelationAggregateInput
@@ -245,6 +254,7 @@ export type AssessmentWhereUniqueInput = Prisma.AtLeast<{
   maxMarks?: Prisma.IntFilter<"Assessment"> | number
   weightage?: Prisma.IntFilter<"Assessment"> | number
   moduleId?: Prisma.StringFilter<"Assessment"> | string
+  deadline?: Prisma.DateTimeFilter<"Assessment"> | Date | string
   submissions?: Prisma.SubmissionListRelationFilter
   module?: Prisma.XOR<Prisma.ModuleScalarRelationFilter, Prisma.ModuleWhereInput>
   grades?: Prisma.GradeListRelationFilter
@@ -256,6 +266,7 @@ export type AssessmentOrderByWithAggregationInput = {
   maxMarks?: Prisma.SortOrder
   weightage?: Prisma.SortOrder
   moduleId?: Prisma.SortOrder
+  deadline?: Prisma.SortOrder
   _count?: Prisma.AssessmentCountOrderByAggregateInput
   _avg?: Prisma.AssessmentAvgOrderByAggregateInput
   _max?: Prisma.AssessmentMaxOrderByAggregateInput
@@ -272,6 +283,7 @@ export type AssessmentScalarWhereWithAggregatesInput = {
   maxMarks?: Prisma.IntWithAggregatesFilter<"Assessment"> | number
   weightage?: Prisma.IntWithAggregatesFilter<"Assessment"> | number
   moduleId?: Prisma.StringWithAggregatesFilter<"Assessment"> | string
+  deadline?: Prisma.DateTimeWithAggregatesFilter<"Assessment"> | Date | string
 }
 
 export type AssessmentCreateInput = {
@@ -279,6 +291,7 @@ export type AssessmentCreateInput = {
   title: string
   maxMarks: number
   weightage: number
+  deadline: Date | string
   submissions?: Prisma.SubmissionCreateNestedManyWithoutAssessmentInput
   module: Prisma.ModuleCreateNestedOneWithoutAssessmentsInput
   grades?: Prisma.GradeCreateNestedManyWithoutAssessmentInput
@@ -290,6 +303,7 @@ export type AssessmentUncheckedCreateInput = {
   maxMarks: number
   weightage: number
   moduleId: string
+  deadline: Date | string
   submissions?: Prisma.SubmissionUncheckedCreateNestedManyWithoutAssessmentInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutAssessmentInput
 }
@@ -299,6 +313,7 @@ export type AssessmentUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   maxMarks?: Prisma.IntFieldUpdateOperationsInput | number
   weightage?: Prisma.IntFieldUpdateOperationsInput | number
+  deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   submissions?: Prisma.SubmissionUpdateManyWithoutAssessmentNestedInput
   module?: Prisma.ModuleUpdateOneRequiredWithoutAssessmentsNestedInput
   grades?: Prisma.GradeUpdateManyWithoutAssessmentNestedInput
@@ -310,6 +325,7 @@ export type AssessmentUncheckedUpdateInput = {
   maxMarks?: Prisma.IntFieldUpdateOperationsInput | number
   weightage?: Prisma.IntFieldUpdateOperationsInput | number
   moduleId?: Prisma.StringFieldUpdateOperationsInput | string
+  deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   submissions?: Prisma.SubmissionUncheckedUpdateManyWithoutAssessmentNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutAssessmentNestedInput
 }
@@ -320,6 +336,7 @@ export type AssessmentCreateManyInput = {
   maxMarks: number
   weightage: number
   moduleId: string
+  deadline: Date | string
 }
 
 export type AssessmentUpdateManyMutationInput = {
@@ -327,6 +344,7 @@ export type AssessmentUpdateManyMutationInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   maxMarks?: Prisma.IntFieldUpdateOperationsInput | number
   weightage?: Prisma.IntFieldUpdateOperationsInput | number
+  deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type AssessmentUncheckedUpdateManyInput = {
@@ -335,6 +353,7 @@ export type AssessmentUncheckedUpdateManyInput = {
   maxMarks?: Prisma.IntFieldUpdateOperationsInput | number
   weightage?: Prisma.IntFieldUpdateOperationsInput | number
   moduleId?: Prisma.StringFieldUpdateOperationsInput | string
+  deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type AssessmentCountOrderByAggregateInput = {
@@ -343,6 +362,7 @@ export type AssessmentCountOrderByAggregateInput = {
   maxMarks?: Prisma.SortOrder
   weightage?: Prisma.SortOrder
   moduleId?: Prisma.SortOrder
+  deadline?: Prisma.SortOrder
 }
 
 export type AssessmentAvgOrderByAggregateInput = {
@@ -356,6 +376,7 @@ export type AssessmentMaxOrderByAggregateInput = {
   maxMarks?: Prisma.SortOrder
   weightage?: Prisma.SortOrder
   moduleId?: Prisma.SortOrder
+  deadline?: Prisma.SortOrder
 }
 
 export type AssessmentMinOrderByAggregateInput = {
@@ -364,6 +385,7 @@ export type AssessmentMinOrderByAggregateInput = {
   maxMarks?: Prisma.SortOrder
   weightage?: Prisma.SortOrder
   moduleId?: Prisma.SortOrder
+  deadline?: Prisma.SortOrder
 }
 
 export type AssessmentSumOrderByAggregateInput = {
@@ -396,6 +418,10 @@ export type IntFieldUpdateOperationsInput = {
   decrement?: number
   multiply?: number
   divide?: number
+}
+
+export type DateTimeFieldUpdateOperationsInput = {
+  set?: Date | string
 }
 
 export type AssessmentCreateNestedOneWithoutGradesInput = {
@@ -473,6 +499,7 @@ export type AssessmentCreateWithoutGradesInput = {
   title: string
   maxMarks: number
   weightage: number
+  deadline: Date | string
   submissions?: Prisma.SubmissionCreateNestedManyWithoutAssessmentInput
   module: Prisma.ModuleCreateNestedOneWithoutAssessmentsInput
 }
@@ -483,6 +510,7 @@ export type AssessmentUncheckedCreateWithoutGradesInput = {
   maxMarks: number
   weightage: number
   moduleId: string
+  deadline: Date | string
   submissions?: Prisma.SubmissionUncheckedCreateNestedManyWithoutAssessmentInput
 }
 
@@ -507,6 +535,7 @@ export type AssessmentUpdateWithoutGradesInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   maxMarks?: Prisma.IntFieldUpdateOperationsInput | number
   weightage?: Prisma.IntFieldUpdateOperationsInput | number
+  deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   submissions?: Prisma.SubmissionUpdateManyWithoutAssessmentNestedInput
   module?: Prisma.ModuleUpdateOneRequiredWithoutAssessmentsNestedInput
 }
@@ -517,6 +546,7 @@ export type AssessmentUncheckedUpdateWithoutGradesInput = {
   maxMarks?: Prisma.IntFieldUpdateOperationsInput | number
   weightage?: Prisma.IntFieldUpdateOperationsInput | number
   moduleId?: Prisma.StringFieldUpdateOperationsInput | string
+  deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   submissions?: Prisma.SubmissionUncheckedUpdateManyWithoutAssessmentNestedInput
 }
 
@@ -525,6 +555,7 @@ export type AssessmentCreateWithoutModuleInput = {
   title: string
   maxMarks: number
   weightage: number
+  deadline: Date | string
   submissions?: Prisma.SubmissionCreateNestedManyWithoutAssessmentInput
   grades?: Prisma.GradeCreateNestedManyWithoutAssessmentInput
 }
@@ -534,6 +565,7 @@ export type AssessmentUncheckedCreateWithoutModuleInput = {
   title: string
   maxMarks: number
   weightage: number
+  deadline: Date | string
   submissions?: Prisma.SubmissionUncheckedCreateNestedManyWithoutAssessmentInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutAssessmentInput
 }
@@ -573,6 +605,7 @@ export type AssessmentScalarWhereInput = {
   maxMarks?: Prisma.IntFilter<"Assessment"> | number
   weightage?: Prisma.IntFilter<"Assessment"> | number
   moduleId?: Prisma.StringFilter<"Assessment"> | string
+  deadline?: Prisma.DateTimeFilter<"Assessment"> | Date | string
 }
 
 export type AssessmentCreateWithoutSubmissionsInput = {
@@ -580,6 +613,7 @@ export type AssessmentCreateWithoutSubmissionsInput = {
   title: string
   maxMarks: number
   weightage: number
+  deadline: Date | string
   module: Prisma.ModuleCreateNestedOneWithoutAssessmentsInput
   grades?: Prisma.GradeCreateNestedManyWithoutAssessmentInput
 }
@@ -590,6 +624,7 @@ export type AssessmentUncheckedCreateWithoutSubmissionsInput = {
   maxMarks: number
   weightage: number
   moduleId: string
+  deadline: Date | string
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutAssessmentInput
 }
 
@@ -614,6 +649,7 @@ export type AssessmentUpdateWithoutSubmissionsInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   maxMarks?: Prisma.IntFieldUpdateOperationsInput | number
   weightage?: Prisma.IntFieldUpdateOperationsInput | number
+  deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   module?: Prisma.ModuleUpdateOneRequiredWithoutAssessmentsNestedInput
   grades?: Prisma.GradeUpdateManyWithoutAssessmentNestedInput
 }
@@ -624,6 +660,7 @@ export type AssessmentUncheckedUpdateWithoutSubmissionsInput = {
   maxMarks?: Prisma.IntFieldUpdateOperationsInput | number
   weightage?: Prisma.IntFieldUpdateOperationsInput | number
   moduleId?: Prisma.StringFieldUpdateOperationsInput | string
+  deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   grades?: Prisma.GradeUncheckedUpdateManyWithoutAssessmentNestedInput
 }
 
@@ -632,6 +669,7 @@ export type AssessmentCreateManyModuleInput = {
   title: string
   maxMarks: number
   weightage: number
+  deadline: Date | string
 }
 
 export type AssessmentUpdateWithoutModuleInput = {
@@ -639,6 +677,7 @@ export type AssessmentUpdateWithoutModuleInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   maxMarks?: Prisma.IntFieldUpdateOperationsInput | number
   weightage?: Prisma.IntFieldUpdateOperationsInput | number
+  deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   submissions?: Prisma.SubmissionUpdateManyWithoutAssessmentNestedInput
   grades?: Prisma.GradeUpdateManyWithoutAssessmentNestedInput
 }
@@ -648,6 +687,7 @@ export type AssessmentUncheckedUpdateWithoutModuleInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   maxMarks?: Prisma.IntFieldUpdateOperationsInput | number
   weightage?: Prisma.IntFieldUpdateOperationsInput | number
+  deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   submissions?: Prisma.SubmissionUncheckedUpdateManyWithoutAssessmentNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutAssessmentNestedInput
 }
@@ -657,6 +697,7 @@ export type AssessmentUncheckedUpdateManyWithoutModuleInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   maxMarks?: Prisma.IntFieldUpdateOperationsInput | number
   weightage?: Prisma.IntFieldUpdateOperationsInput | number
+  deadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -705,6 +746,7 @@ export type AssessmentSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   maxMarks?: boolean
   weightage?: boolean
   moduleId?: boolean
+  deadline?: boolean
   submissions?: boolean | Prisma.Assessment$submissionsArgs<ExtArgs>
   module?: boolean | Prisma.ModuleDefaultArgs<ExtArgs>
   grades?: boolean | Prisma.Assessment$gradesArgs<ExtArgs>
@@ -717,6 +759,7 @@ export type AssessmentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   maxMarks?: boolean
   weightage?: boolean
   moduleId?: boolean
+  deadline?: boolean
   module?: boolean | Prisma.ModuleDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["assessment"]>
 
@@ -726,6 +769,7 @@ export type AssessmentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   maxMarks?: boolean
   weightage?: boolean
   moduleId?: boolean
+  deadline?: boolean
   module?: boolean | Prisma.ModuleDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["assessment"]>
 
@@ -735,9 +779,10 @@ export type AssessmentSelectScalar = {
   maxMarks?: boolean
   weightage?: boolean
   moduleId?: boolean
+  deadline?: boolean
 }
 
-export type AssessmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "maxMarks" | "weightage" | "moduleId", ExtArgs["result"]["assessment"]>
+export type AssessmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "maxMarks" | "weightage" | "moduleId" | "deadline", ExtArgs["result"]["assessment"]>
 export type AssessmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   submissions?: boolean | Prisma.Assessment$submissionsArgs<ExtArgs>
   module?: boolean | Prisma.ModuleDefaultArgs<ExtArgs>
@@ -764,6 +809,7 @@ export type $AssessmentPayload<ExtArgs extends runtime.Types.Extensions.Internal
     maxMarks: number
     weightage: number
     moduleId: string
+    deadline: Date
   }, ExtArgs["result"]["assessment"]>
   composites: {}
 }
@@ -1195,6 +1241,7 @@ export interface AssessmentFieldRefs {
   readonly maxMarks: Prisma.FieldRef<"Assessment", 'Int'>
   readonly weightage: Prisma.FieldRef<"Assessment", 'Int'>
   readonly moduleId: Prisma.FieldRef<"Assessment", 'String'>
+  readonly deadline: Prisma.FieldRef<"Assessment", 'DateTime'>
 }
     
 

@@ -80,7 +80,8 @@ export const AssessmentScalarFieldEnum = {
   title: 'title',
   maxMarks: 'maxMarks',
   weightage: 'weightage',
-  moduleId: 'moduleId'
+  moduleId: 'moduleId',
+  deadline: 'deadline'
 } as const
 
 export type AssessmentScalarFieldEnum = (typeof AssessmentScalarFieldEnum)[keyof typeof AssessmentScalarFieldEnum]
@@ -92,6 +93,7 @@ export const GradeScalarFieldEnum = {
   feedback: 'feedback',
   studentId: 'studentId',
   assessmentId: 'assessmentId',
+  isPublished: 'isPublished',
   createdAt: 'createdAt'
 } as const
 

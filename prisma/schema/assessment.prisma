@@ -5,6 +5,7 @@ model Assessment {
   weightage   Int
   moduleId    String
   submissions Submission[]
+  deadline    DateTime
   module      Module       @relation(fields: [moduleId], references: [id])
   grades      Grade[]
 }

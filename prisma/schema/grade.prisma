@@ -4,6 +4,7 @@ model Grade {
     feedback     String?
     studentId    String
     assessmentId String
+    isPublished  Boolean    @default(false)
     student      Student    @relation(fields: [studentId], references: [id])
     assessment   Assessment @relation(fields: [assessmentId], references: [id])
     createdAt    DateTime   @default(now())

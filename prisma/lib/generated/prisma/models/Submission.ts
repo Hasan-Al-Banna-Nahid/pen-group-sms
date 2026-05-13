@@ -505,10 +505,6 @@ export type NullableIntFieldUpdateOperationsInput = {
   divide?: number
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type SubmissionCreateWithoutAssessmentInput = {
   id?: string
   fileUrl: string

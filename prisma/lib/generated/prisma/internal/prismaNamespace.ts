@@ -897,7 +897,8 @@ export const AssessmentScalarFieldEnum = {
   title: 'title',
   maxMarks: 'maxMarks',
   weightage: 'weightage',
-  moduleId: 'moduleId'
+  moduleId: 'moduleId',
+  deadline: 'deadline'
 } as const
 
 export type AssessmentScalarFieldEnum = (typeof AssessmentScalarFieldEnum)[keyof typeof AssessmentScalarFieldEnum]
@@ -909,6 +910,7 @@ export const GradeScalarFieldEnum = {
   feedback: 'feedback',
   studentId: 'studentId',
   assessmentId: 'assessmentId',
+  isPublished: 'isPublished',
   createdAt: 'createdAt'
 } as const
 
@@ -1024,20 +1026,6 @@ export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
 
 
 /**
- * Reference to a field of type 'Float'
- */
-export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
-    
-
-
-/**
- * Reference to a field of type 'Float[]'
- */
-export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
-    
-
-
-/**
  * Reference to a field of type 'DateTime'
  */
 export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -1052,6 +1040,27 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
+ * Reference to a field of type 'Float'
+ */
+export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+/**
+ * Reference to a field of type 'Float[]'
+ */
+export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
  * Reference to a field of type 'EnrolmentStatus'
  */
 export type EnumEnrolmentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EnrolmentStatus'>
@@ -1062,13 +1071,6 @@ export type EnumEnrolmentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$
  * Reference to a field of type 'EnrolmentStatus[]'
  */
 export type ListEnumEnrolmentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EnrolmentStatus[]'>
-    
-
-
-/**
- * Reference to a field of type 'Boolean'
- */
-export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 /**
