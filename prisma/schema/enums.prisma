@@ -1,0 +1,6 @@
+enum EnrolmentStatus {
+    ENROLLED
+    DEFERRED
+    WITHDRAWN
+    COMPLETED
+}

@@ -1,0 +1,8 @@
+model Assessment {
+  id       String   @id @default(uuid())
+  title    String
+  module   String
+  deadline DateTime
+
+  submissions Submission[]
+}

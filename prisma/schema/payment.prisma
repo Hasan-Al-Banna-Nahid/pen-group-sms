@@ -1,0 +1,9 @@
+model Payment {
+    id              String   @id @default(uuid())
+    amount          Float
+    date            DateTime @default(now())
+    referenceNumber String   @unique
+
+    studentId String
+    student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+}

@@ -1,0 +1,15 @@
+model Submission {
+    id          String   @id @default(uuid())
+    fileUrl     String
+    submittedAt DateTime @default(now())
+    grade       Int?
+    isPublished Boolean  @default(false)
+
+    studentId    String
+    assessmentId String
+
+    student    Student    @relation(fields: [studentId], references: [id], onDelete: Cascade)
+    assessment Assessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+
+    @@unique([studentId, assessmentId])
+}
