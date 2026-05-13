@@ -125,6 +125,13 @@ export type StringNullableFilter<$PrismaModel = never> = {
   not?: Prisma.NestedStringNullableFilter<$PrismaModel> | string | null
 }
 
+export type EnumClassificationFilter<$PrismaModel = never> = {
+  equals?: $Enums.Classification | Prisma.EnumClassificationFieldRefInput<$PrismaModel>
+  in?: $Enums.Classification[] | Prisma.ListEnumClassificationFieldRefInput<$PrismaModel>
+  notIn?: $Enums.Classification[] | Prisma.ListEnumClassificationFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumClassificationFilter<$PrismaModel> | $Enums.Classification
+}
+
 export type BoolFilter<$PrismaModel = never> = {
   equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
   not?: Prisma.NestedBoolFilter<$PrismaModel> | boolean
@@ -167,6 +174,16 @@ export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
   _min?: Prisma.NestedStringNullableFilter<$PrismaModel>
   _max?: Prisma.NestedStringNullableFilter<$PrismaModel>
+}
+
+export type EnumClassificationWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.Classification | Prisma.EnumClassificationFieldRefInput<$PrismaModel>
+  in?: $Enums.Classification[] | Prisma.ListEnumClassificationFieldRefInput<$PrismaModel>
+  notIn?: $Enums.Classification[] | Prisma.ListEnumClassificationFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumClassificationWithAggregatesFilter<$PrismaModel> | $Enums.Classification
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumClassificationFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumClassificationFilter<$PrismaModel>
 }
 
 export type BoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -329,6 +346,13 @@ export type NestedStringNullableFilter<$PrismaModel = never> = {
   not?: Prisma.NestedStringNullableFilter<$PrismaModel> | string | null
 }
 
+export type NestedEnumClassificationFilter<$PrismaModel = never> = {
+  equals?: $Enums.Classification | Prisma.EnumClassificationFieldRefInput<$PrismaModel>
+  in?: $Enums.Classification[] | Prisma.ListEnumClassificationFieldRefInput<$PrismaModel>
+  notIn?: $Enums.Classification[] | Prisma.ListEnumClassificationFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumClassificationFilter<$PrismaModel> | $Enums.Classification
+}
+
 export type NestedBoolFilter<$PrismaModel = never> = {
   equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
   not?: Prisma.NestedBoolFilter<$PrismaModel> | boolean
@@ -376,6 +400,16 @@ export type NestedIntNullableFilter<$PrismaModel = never> = {
   gt?: number | Prisma.IntFieldRefInput<$PrismaModel>
   gte?: number | Prisma.IntFieldRefInput<$PrismaModel>
   not?: Prisma.NestedIntNullableFilter<$PrismaModel> | number | null
+}
+
+export type NestedEnumClassificationWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.Classification | Prisma.EnumClassificationFieldRefInput<$PrismaModel>
+  in?: $Enums.Classification[] | Prisma.ListEnumClassificationFieldRefInput<$PrismaModel>
+  notIn?: $Enums.Classification[] | Prisma.ListEnumClassificationFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumClassificationWithAggregatesFilter<$PrismaModel> | $Enums.Classification
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumClassificationFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumClassificationFilter<$PrismaModel>
 }
 
 export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {

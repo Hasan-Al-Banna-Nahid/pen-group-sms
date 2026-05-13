@@ -4,6 +4,7 @@ model Submission {
     submittedAt DateTime @default(now())
     grade       Int?
     isPublished Boolean  @default(false)
+    isLate      Boolean  @default(false)
 
     studentId    String
     assessmentId String
@@ -13,3 +14,4 @@ model Submission {
 
     @@unique([studentId, assessmentId])
 }
+

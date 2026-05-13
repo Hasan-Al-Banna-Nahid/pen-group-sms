@@ -4,10 +4,12 @@ model Student {
     fullName     String
     email        String          @unique
     dob          DateTime
-    programme    String
+    programmeId  String?
+    programme    Programme?      @relation(fields: [programmeId], references: [id])
     academicYear String
     status       EnrolmentStatus @default(ENROLLED)
     feeAmount    Float
+    totalFees    Float           @default(0.0)
     grades       Grade[]
     payments     Payment[]
     submissions  Submission[]

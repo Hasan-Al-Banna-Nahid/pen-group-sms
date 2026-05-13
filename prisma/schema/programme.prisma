@@ -1,0 +1,7 @@
+model Programme {
+    id        String    @id @default(uuid())
+    name      String    @unique
+    baseFee   Float
+    students  Student[]
+    createdAt DateTime  @default(now())
+}

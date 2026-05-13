@@ -40,6 +40,7 @@ export type SubmissionMinAggregateOutputType = {
   submittedAt: Date | null
   grade: number | null
   isPublished: boolean | null
+  isLate: boolean | null
   studentId: string | null
   assessmentId: string | null
 }
@@ -50,6 +51,7 @@ export type SubmissionMaxAggregateOutputType = {
   submittedAt: Date | null
   grade: number | null
   isPublished: boolean | null
+  isLate: boolean | null
   studentId: string | null
   assessmentId: string | null
 }
@@ -60,6 +62,7 @@ export type SubmissionCountAggregateOutputType = {
   submittedAt: number
   grade: number
   isPublished: number
+  isLate: number
   studentId: number
   assessmentId: number
   _all: number
@@ -80,6 +83,7 @@ export type SubmissionMinAggregateInputType = {
   submittedAt?: true
   grade?: true
   isPublished?: true
+  isLate?: true
   studentId?: true
   assessmentId?: true
 }
@@ -90,6 +94,7 @@ export type SubmissionMaxAggregateInputType = {
   submittedAt?: true
   grade?: true
   isPublished?: true
+  isLate?: true
   studentId?: true
   assessmentId?: true
 }
@@ -100,6 +105,7 @@ export type SubmissionCountAggregateInputType = {
   submittedAt?: true
   grade?: true
   isPublished?: true
+  isLate?: true
   studentId?: true
   assessmentId?: true
   _all?: true
@@ -197,6 +203,7 @@ export type SubmissionGroupByOutputType = {
   submittedAt: Date
   grade: number | null
   isPublished: boolean
+  isLate: boolean
   studentId: string
   assessmentId: string
   _count: SubmissionCountAggregateOutputType | null
@@ -230,6 +237,7 @@ export type SubmissionWhereInput = {
   submittedAt?: Prisma.DateTimeFilter<"Submission"> | Date | string
   grade?: Prisma.IntNullableFilter<"Submission"> | number | null
   isPublished?: Prisma.BoolFilter<"Submission"> | boolean
+  isLate?: Prisma.BoolFilter<"Submission"> | boolean
   studentId?: Prisma.StringFilter<"Submission"> | string
   assessmentId?: Prisma.StringFilter<"Submission"> | string
   student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
@@ -242,6 +250,7 @@ export type SubmissionOrderByWithRelationInput = {
   submittedAt?: Prisma.SortOrder
   grade?: Prisma.SortOrderInput | Prisma.SortOrder
   isPublished?: Prisma.SortOrder
+  isLate?: Prisma.SortOrder
   studentId?: Prisma.SortOrder
   assessmentId?: Prisma.SortOrder
   student?: Prisma.StudentOrderByWithRelationInput
@@ -258,6 +267,7 @@ export type SubmissionWhereUniqueInput = Prisma.AtLeast<{
   submittedAt?: Prisma.DateTimeFilter<"Submission"> | Date | string
   grade?: Prisma.IntNullableFilter<"Submission"> | number | null
   isPublished?: Prisma.BoolFilter<"Submission"> | boolean
+  isLate?: Prisma.BoolFilter<"Submission"> | boolean
   studentId?: Prisma.StringFilter<"Submission"> | string
   assessmentId?: Prisma.StringFilter<"Submission"> | string
   student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
@@ -270,6 +280,7 @@ export type SubmissionOrderByWithAggregationInput = {
   submittedAt?: Prisma.SortOrder
   grade?: Prisma.SortOrderInput | Prisma.SortOrder
   isPublished?: Prisma.SortOrder
+  isLate?: Prisma.SortOrder
   studentId?: Prisma.SortOrder
   assessmentId?: Prisma.SortOrder
   _count?: Prisma.SubmissionCountOrderByAggregateInput
@@ -288,6 +299,7 @@ export type SubmissionScalarWhereWithAggregatesInput = {
   submittedAt?: Prisma.DateTimeWithAggregatesFilter<"Submission"> | Date | string
   grade?: Prisma.IntNullableWithAggregatesFilter<"Submission"> | number | null
   isPublished?: Prisma.BoolWithAggregatesFilter<"Submission"> | boolean
+  isLate?: Prisma.BoolWithAggregatesFilter<"Submission"> | boolean
   studentId?: Prisma.StringWithAggregatesFilter<"Submission"> | string
   assessmentId?: Prisma.StringWithAggregatesFilter<"Submission"> | string
 }
@@ -298,6 +310,7 @@ export type SubmissionCreateInput = {
   submittedAt?: Date | string
   grade?: number | null
   isPublished?: boolean
+  isLate?: boolean
   student: Prisma.StudentCreateNestedOneWithoutSubmissionsInput
   assessment: Prisma.AssessmentCreateNestedOneWithoutSubmissionsInput
 }
@@ -308,6 +321,7 @@ export type SubmissionUncheckedCreateInput = {
   submittedAt?: Date | string
   grade?: number | null
   isPublished?: boolean
+  isLate?: boolean
   studentId: string
   assessmentId: string
 }
@@ -318,6 +332,7 @@ export type SubmissionUpdateInput = {
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   grade?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isLate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   student?: Prisma.StudentUpdateOneRequiredWithoutSubmissionsNestedInput
   assessment?: Prisma.AssessmentUpdateOneRequiredWithoutSubmissionsNestedInput
 }
@@ -328,6 +343,7 @@ export type SubmissionUncheckedUpdateInput = {
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   grade?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isLate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
   assessmentId?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -338,6 +354,7 @@ export type SubmissionCreateManyInput = {
   submittedAt?: Date | string
   grade?: number | null
   isPublished?: boolean
+  isLate?: boolean
   studentId: string
   assessmentId: string
 }
@@ -348,6 +365,7 @@ export type SubmissionUpdateManyMutationInput = {
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   grade?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isLate?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type SubmissionUncheckedUpdateManyInput = {
@@ -356,6 +374,7 @@ export type SubmissionUncheckedUpdateManyInput = {
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   grade?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isLate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
   assessmentId?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -381,6 +400,7 @@ export type SubmissionCountOrderByAggregateInput = {
   submittedAt?: Prisma.SortOrder
   grade?: Prisma.SortOrder
   isPublished?: Prisma.SortOrder
+  isLate?: Prisma.SortOrder
   studentId?: Prisma.SortOrder
   assessmentId?: Prisma.SortOrder
 }
@@ -395,6 +415,7 @@ export type SubmissionMaxOrderByAggregateInput = {
   submittedAt?: Prisma.SortOrder
   grade?: Prisma.SortOrder
   isPublished?: Prisma.SortOrder
+  isLate?: Prisma.SortOrder
   studentId?: Prisma.SortOrder
   assessmentId?: Prisma.SortOrder
 }
@@ -405,6 +426,7 @@ export type SubmissionMinOrderByAggregateInput = {
   submittedAt?: Prisma.SortOrder
   grade?: Prisma.SortOrder
   isPublished?: Prisma.SortOrder
+  isLate?: Prisma.SortOrder
   studentId?: Prisma.SortOrder
   assessmentId?: Prisma.SortOrder
 }
@@ -511,6 +533,7 @@ export type SubmissionCreateWithoutAssessmentInput = {
   submittedAt?: Date | string
   grade?: number | null
   isPublished?: boolean
+  isLate?: boolean
   student: Prisma.StudentCreateNestedOneWithoutSubmissionsInput
 }
 
@@ -520,6 +543,7 @@ export type SubmissionUncheckedCreateWithoutAssessmentInput = {
   submittedAt?: Date | string
   grade?: number | null
   isPublished?: boolean
+  isLate?: boolean
   studentId: string
 }
 
@@ -558,6 +582,7 @@ export type SubmissionScalarWhereInput = {
   submittedAt?: Prisma.DateTimeFilter<"Submission"> | Date | string
   grade?: Prisma.IntNullableFilter<"Submission"> | number | null
   isPublished?: Prisma.BoolFilter<"Submission"> | boolean
+  isLate?: Prisma.BoolFilter<"Submission"> | boolean
   studentId?: Prisma.StringFilter<"Submission"> | string
   assessmentId?: Prisma.StringFilter<"Submission"> | string
 }
@@ -568,6 +593,7 @@ export type SubmissionCreateWithoutStudentInput = {
   submittedAt?: Date | string
   grade?: number | null
   isPublished?: boolean
+  isLate?: boolean
   assessment: Prisma.AssessmentCreateNestedOneWithoutSubmissionsInput
 }
 
@@ -577,6 +603,7 @@ export type SubmissionUncheckedCreateWithoutStudentInput = {
   submittedAt?: Date | string
   grade?: number | null
   isPublished?: boolean
+  isLate?: boolean
   assessmentId: string
 }
 
@@ -612,6 +639,7 @@ export type SubmissionCreateManyAssessmentInput = {
   submittedAt?: Date | string
   grade?: number | null
   isPublished?: boolean
+  isLate?: boolean
   studentId: string
 }
 
@@ -621,6 +649,7 @@ export type SubmissionUpdateWithoutAssessmentInput = {
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   grade?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isLate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   student?: Prisma.StudentUpdateOneRequiredWithoutSubmissionsNestedInput
 }
 
@@ -630,6 +659,7 @@ export type SubmissionUncheckedUpdateWithoutAssessmentInput = {
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   grade?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isLate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -639,6 +669,7 @@ export type SubmissionUncheckedUpdateManyWithoutAssessmentInput = {
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   grade?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isLate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -648,6 +679,7 @@ export type SubmissionCreateManyStudentInput = {
   submittedAt?: Date | string
   grade?: number | null
   isPublished?: boolean
+  isLate?: boolean
   assessmentId: string
 }
 
@@ -657,6 +689,7 @@ export type SubmissionUpdateWithoutStudentInput = {
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   grade?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isLate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   assessment?: Prisma.AssessmentUpdateOneRequiredWithoutSubmissionsNestedInput
 }
 
@@ -666,6 +699,7 @@ export type SubmissionUncheckedUpdateWithoutStudentInput = {
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   grade?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isLate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   assessmentId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -675,6 +709,7 @@ export type SubmissionUncheckedUpdateManyWithoutStudentInput = {
   submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   grade?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isLate?: Prisma.BoolFieldUpdateOperationsInput | boolean
   assessmentId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -686,6 +721,7 @@ export type SubmissionSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   submittedAt?: boolean
   grade?: boolean
   isPublished?: boolean
+  isLate?: boolean
   studentId?: boolean
   assessmentId?: boolean
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
@@ -698,6 +734,7 @@ export type SubmissionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   submittedAt?: boolean
   grade?: boolean
   isPublished?: boolean
+  isLate?: boolean
   studentId?: boolean
   assessmentId?: boolean
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
@@ -710,6 +747,7 @@ export type SubmissionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   submittedAt?: boolean
   grade?: boolean
   isPublished?: boolean
+  isLate?: boolean
   studentId?: boolean
   assessmentId?: boolean
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
@@ -722,11 +760,12 @@ export type SubmissionSelectScalar = {
   submittedAt?: boolean
   grade?: boolean
   isPublished?: boolean
+  isLate?: boolean
   studentId?: boolean
   assessmentId?: boolean
 }
 
-export type SubmissionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fileUrl" | "submittedAt" | "grade" | "isPublished" | "studentId" | "assessmentId", ExtArgs["result"]["submission"]>
+export type SubmissionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fileUrl" | "submittedAt" | "grade" | "isPublished" | "isLate" | "studentId" | "assessmentId", ExtArgs["result"]["submission"]>
 export type SubmissionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   assessment?: boolean | Prisma.AssessmentDefaultArgs<ExtArgs>
@@ -752,6 +791,7 @@ export type $SubmissionPayload<ExtArgs extends runtime.Types.Extensions.Internal
     submittedAt: Date
     grade: number | null
     isPublished: boolean
+    isLate: boolean
     studentId: string
     assessmentId: string
   }, ExtArgs["result"]["submission"]>
@@ -1184,6 +1224,7 @@ export interface SubmissionFieldRefs {
   readonly submittedAt: Prisma.FieldRef<"Submission", 'DateTime'>
   readonly grade: Prisma.FieldRef<"Submission", 'Int'>
   readonly isPublished: Prisma.FieldRef<"Submission", 'Boolean'>
+  readonly isLate: Prisma.FieldRef<"Submission", 'Boolean'>
   readonly studentId: Prisma.FieldRef<"Submission", 'String'>
   readonly assessmentId: Prisma.FieldRef<"Submission", 'String'>
 }

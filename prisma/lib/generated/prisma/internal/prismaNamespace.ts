@@ -388,8 +388,10 @@ export const ModelName = {
   Grade: 'Grade',
   Module: 'Module',
   Payment: 'Payment',
+  Programme: 'Programme',
   Student: 'Student',
-  Submission: 'Submission'
+  Submission: 'Submission',
+  YearlySequence: 'YearlySequence'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -405,7 +407,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "assessment" | "grade" | "module" | "payment" | "student" | "submission"
+    modelProps: "assessment" | "grade" | "module" | "payment" | "programme" | "student" | "submission" | "yearlySequence"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -705,6 +707,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Programme: {
+      payload: Prisma.$ProgrammePayload<ExtArgs>
+      fields: Prisma.ProgrammeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ProgrammeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProgrammePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ProgrammeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProgrammePayload>
+        }
+        findFirst: {
+          args: Prisma.ProgrammeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProgrammePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ProgrammeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProgrammePayload>
+        }
+        findMany: {
+          args: Prisma.ProgrammeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProgrammePayload>[]
+        }
+        create: {
+          args: Prisma.ProgrammeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProgrammePayload>
+        }
+        createMany: {
+          args: Prisma.ProgrammeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ProgrammeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProgrammePayload>[]
+        }
+        delete: {
+          args: Prisma.ProgrammeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProgrammePayload>
+        }
+        update: {
+          args: Prisma.ProgrammeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProgrammePayload>
+        }
+        deleteMany: {
+          args: Prisma.ProgrammeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ProgrammeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ProgrammeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProgrammePayload>[]
+        }
+        upsert: {
+          args: Prisma.ProgrammeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProgrammePayload>
+        }
+        aggregate: {
+          args: Prisma.ProgrammeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateProgramme>
+        }
+        groupBy: {
+          args: Prisma.ProgrammeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProgrammeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ProgrammeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProgrammeCountAggregateOutputType> | number
+        }
+      }
+    }
     Student: {
       payload: Prisma.$StudentPayload<ExtArgs>
       fields: Prisma.StudentFieldRefs
@@ -853,6 +929,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    YearlySequence: {
+      payload: Prisma.$YearlySequencePayload<ExtArgs>
+      fields: Prisma.YearlySequenceFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.YearlySequenceFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearlySequencePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.YearlySequenceFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearlySequencePayload>
+        }
+        findFirst: {
+          args: Prisma.YearlySequenceFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearlySequencePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.YearlySequenceFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearlySequencePayload>
+        }
+        findMany: {
+          args: Prisma.YearlySequenceFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearlySequencePayload>[]
+        }
+        create: {
+          args: Prisma.YearlySequenceCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearlySequencePayload>
+        }
+        createMany: {
+          args: Prisma.YearlySequenceCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.YearlySequenceCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearlySequencePayload>[]
+        }
+        delete: {
+          args: Prisma.YearlySequenceDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearlySequencePayload>
+        }
+        update: {
+          args: Prisma.YearlySequenceUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearlySequencePayload>
+        }
+        deleteMany: {
+          args: Prisma.YearlySequenceDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.YearlySequenceUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.YearlySequenceUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearlySequencePayload>[]
+        }
+        upsert: {
+          args: Prisma.YearlySequenceUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$YearlySequencePayload>
+        }
+        aggregate: {
+          args: Prisma.YearlySequenceAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateYearlySequence>
+        }
+        groupBy: {
+          args: Prisma.YearlySequenceGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.YearlySequenceGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.YearlySequenceCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.YearlySequenceCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -908,9 +1058,11 @@ export const GradeScalarFieldEnum = {
   id: 'id',
   score: 'score',
   feedback: 'feedback',
+  classification: 'classification',
   studentId: 'studentId',
   assessmentId: 'assessmentId',
   isPublished: 'isPublished',
+  isLate: 'isLate',
   createdAt: 'createdAt'
 } as const
 
@@ -938,16 +1090,27 @@ export const PaymentScalarFieldEnum = {
 export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum]
 
 
+export const ProgrammeScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  baseFee: 'baseFee',
+  createdAt: 'createdAt'
+} as const
+
+export type ProgrammeScalarFieldEnum = (typeof ProgrammeScalarFieldEnum)[keyof typeof ProgrammeScalarFieldEnum]
+
+
 export const StudentScalarFieldEnum = {
   id: 'id',
   studentId: 'studentId',
   fullName: 'fullName',
   email: 'email',
   dob: 'dob',
-  programme: 'programme',
+  programmeId: 'programmeId',
   academicYear: 'academicYear',
   status: 'status',
   feeAmount: 'feeAmount',
+  totalFees: 'totalFees',
   createdAt: 'createdAt'
 } as const
 
@@ -960,11 +1123,22 @@ export const SubmissionScalarFieldEnum = {
   submittedAt: 'submittedAt',
   grade: 'grade',
   isPublished: 'isPublished',
+  isLate: 'isLate',
   studentId: 'studentId',
   assessmentId: 'assessmentId'
 } as const
 
 export type SubmissionScalarFieldEnum = (typeof SubmissionScalarFieldEnum)[keyof typeof SubmissionScalarFieldEnum]
+
+
+export const YearlySequenceScalarFieldEnum = {
+  year: 'year',
+  sequenceNumber: 'sequenceNumber',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type YearlySequenceScalarFieldEnum = (typeof YearlySequenceScalarFieldEnum)[keyof typeof YearlySequenceScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1050,6 +1224,20 @@ export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, '
  * Reference to a field of type 'Float[]'
  */
 export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Classification'
+ */
+export type EnumClassificationFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Classification'>
+    
+
+
+/**
+ * Reference to a field of type 'Classification[]'
+ */
+export type ListEnumClassificationFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Classification[]'>
     
 
 
@@ -1187,8 +1375,10 @@ export type GlobalOmitConfig = {
   grade?: Prisma.GradeOmit
   module?: Prisma.ModuleOmit
   payment?: Prisma.PaymentOmit
+  programme?: Prisma.ProgrammeOmit
   student?: Prisma.StudentOmit
   submission?: Prisma.SubmissionOmit
+  yearlySequence?: Prisma.YearlySequenceOmit
 }
 
 /* Types for Logging */

@@ -1,10 +1,15 @@
 "use client";
 
 import { useForm } from "react-hook-form";
+
 import { zodResolver } from "@hookform/resolvers/zod";
+
 import { z } from "zod";
 
+import { useQuery } from "@tanstack/react-query";
+
 import { enrolmentSchema } from "@/lib/validations/student";
+
 import { useEnrolStudent } from "@/app/hooks/use-students";
 
 import { Button } from "@/components/ui/button";
@@ -19,12 +24,28 @@ import {
 } from "@/components/ui/dialog";
 
 import { toast } from "sonner";
+
 import { Plus } from "lucide-react";
 
 type FormValues = z.infer<typeof enrolmentSchema>;
 
 export function EnrolmentDialog() {
   const { mutate, isPending } = useEnrolStudent();
+
+  // FETCH PROGRAMMES
+  const { data: programmes } = useQuery({
+    queryKey: ["programmes"],
+
+    queryFn: async () => {
+      const res = await fetch("/api/programmes");
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch programmes");
+      }
+
+      return res.json();
+    },
+  });
 
   const {
     register,
@@ -33,27 +54,31 @@ export function EnrolmentDialog() {
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(enrolmentSchema),
+
     defaultValues: {
       fullName: "",
       email: "",
       dob: "",
-      programme: "",
+      programmeId: "",
       academicYear: "2025/26",
       feeAmount: 0,
+      status: "ENROLLED",
     },
   });
 
-  function onSubmit(values: FormValues) {
+  const onSubmit = (values: FormValues) => {
     mutate(values, {
       onSuccess: () => {
-        toast.success("Enrolment successful!");
+        toast.success("Student enrolled successfully");
+
         reset();
       },
+
       onError: (error: any) => {
-        toast.error(error?.message || "Something went wrong");
+        toast.error(error?.message || "Failed to enrol student");
       },
     });
-  }
+  };
 
   return (
     <Dialog>
@@ -72,91 +97,118 @@ export function EnrolmentDialog() {
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 pt-4">
-          {/* Full Name */}
+          {/* FULL NAME */}
           <div className="space-y-1">
-            <label className="text-sm font-medium text-gray-700">
-              Full Name
-            </label>
+            <label className="text-sm font-medium">Full Name</label>
+
             <Input placeholder="Hasan Al Banna" {...register("fullName")} />
+
             {errors.fullName && (
-              <p className="text-sm text-red-500">
-                {errors.fullName.message as string}
-              </p>
+              <p className="text-sm text-red-500">{errors.fullName.message}</p>
             )}
           </div>
 
-          {/* Email */}
+          {/* EMAIL */}
           <div className="space-y-1">
-            <label className="text-sm font-medium text-gray-700">Email</label>
+            <label className="text-sm font-medium">Email</label>
+
             <Input
               type="email"
               placeholder="nahid@example.com"
               {...register("email")}
             />
+
             {errors.email && (
-              <p className="text-sm text-red-500">
-                {errors.email.message as string}
-              </p>
+              <p className="text-sm text-red-500">{errors.email.message}</p>
             )}
           </div>
 
           {/* DOB */}
           <div className="space-y-1">
-            <label className="text-sm font-medium text-gray-700">
-              Date of Birth
-            </label>
+            <label className="text-sm font-medium">Date of Birth</label>
+
             <Input type="date" {...register("dob")} />
+
             {errors.dob && (
               <p className="text-sm text-red-500">
-                {errors.dob.message as string}
+                {errors.dob.message?.toString()}
               </p>
             )}
           </div>
 
-          {/* Programme */}
+          {/* PROGRAMME */}
           <div className="space-y-1">
-            <label className="text-sm font-medium text-gray-700">
-              Programme
-            </label>
-            <Input placeholder="BSc CSE" {...register("programme")} />
-            {errors.programme && (
+            <label className="text-sm font-medium">Programme</label>
+
+            <select
+              {...register("programmeId")}
+              className="w-full h-11 rounded-xl border border-input bg-background px-3 text-sm"
+            >
+              <option value="">Select Programme</option>
+
+              {programmes?.map((programme: any) => (
+                <option key={programme.id} value={programme.id}>
+                  {programme.name}
+                </option>
+              ))}
+            </select>
+
+            {errors.programmeId && (
               <p className="text-sm text-red-500">
-                {errors.programme.message as string}
+                {errors.programmeId.message}
               </p>
             )}
           </div>
 
-          {/* Academic Year */}
+          {/* ACADEMIC YEAR */}
           <div className="space-y-1">
-            <label className="text-sm font-medium text-gray-700">
-              Academic Year
-            </label>
+            <label className="text-sm font-medium">Academic Year</label>
+
             <Input {...register("academicYear")} />
+
             {errors.academicYear && (
               <p className="text-sm text-red-500">
-                {errors.academicYear.message as string}
+                {errors.academicYear.message}
               </p>
             )}
           </div>
 
-          {/* Fee Amount */}
+          {/* FEE */}
           <div className="space-y-1">
-            <label className="text-sm font-medium text-gray-700">
-              Fee Amount
-            </label>
+            <label className="text-sm font-medium">Fee Amount</label>
+
             <Input
               type="number"
               placeholder="10000"
-              {...register("feeAmount", { valueAsNumber: true })}
+              {...register("feeAmount", {
+                valueAsNumber: true,
+              })}
             />
+
             {errors.feeAmount && (
-              <p className="text-sm text-red-500">
-                {errors.feeAmount.message as string}
-              </p>
+              <p className="text-sm text-red-500">{errors.feeAmount.message}</p>
             )}
           </div>
 
-          {/* Submit */}
+          {/* STATUS */}
+          <div className="space-y-1">
+            <label className="text-sm font-medium">Enrolment Status</label>
+
+            <select
+              {...register("status")}
+              className="w-full h-11 rounded-xl border border-input bg-background px-3 text-sm"
+            >
+              <option value="ENROLLED">Enrolled</option>
+
+              <option value="DEFERRED">Deferred</option>
+
+              <option value="WITHDRAWN">Withdrawn</option>
+
+              <option value="COMPLETED">Completed</option>
+            </select>
+          </div>
+
+          {/* SUBMIT */}
           <Button type="submit" className="w-full h-11" disabled={isPending}>
             {isPending ? "Saving..." : "Confirm Enrolment"}
           </Button>

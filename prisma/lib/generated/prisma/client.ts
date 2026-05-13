@@ -62,6 +62,11 @@ export type Module = Prisma.ModuleModel
  */
 export type Payment = Prisma.PaymentModel
 /**
+ * Model Programme
+ * 
+ */
+export type Programme = Prisma.ProgrammeModel
+/**
  * Model Student
  * 
  */
@@ -71,3 +76,8 @@ export type Student = Prisma.StudentModel
  * 
  */
 export type Submission = Prisma.SubmissionModel
+/**
+ * Model YearlySequence
+ * 
+ */
+export type YearlySequence = Prisma.YearlySequenceModel

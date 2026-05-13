@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { enrolmentSchema } from "@/lib/validations/student";
 import prisma from "@/lib/prisma";
+import { generateStudentId } from "@/utils/studentIdGenerator";
 
 /**
  * @desc Get all students for the Registry Dashboard [cite: 16, 21]
@@ -30,15 +31,28 @@ export async function POST(req: Request) {
 
     const result = await prisma.$transaction(
       async (tx) => {
-        const year = new Date().getFullYear();
-        const count = await tx.student.count();
-        const formattedId = `SMS-${year}-${(count + 1).toString().padStart(4, "0")}`; // Auto-generate ID [cite: 14]
+        // Auto-generate student ID
+        const studentId = await generateStudentId(tx);
+
+        // Fetch programme to get baseFee
+        let baseFee = 0;
+        if (validatedData.programmeId) {
+          const programme = await tx.programme.findUnique({
+            where: { id: validatedData.programmeId },
+            select: { baseFee: true },
+          });
+          if (programme) {
+            baseFee = programme.baseFee;
+          }
+        }
 
         return await tx.student.create({
           data: {
             ...validatedData,
-            studentId: formattedId,
+            studentId: studentId,
             dob: new Date(validatedData.dob),
+            totalFees: baseFee, // Set totalFees from programme's baseFee
+            feeAmount: baseFee // Also set feeAmount from programme's baseFee
           },
         });
       },
@@ -50,6 +64,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json(result, { status: 201 });
   } catch (error: any) {
+    console.error("STUDENT_ENROLLMENT_ERROR:", error); // Log the actual error
     return NextResponse.json({ error: error.message }, { status: 400 });
   }
 }

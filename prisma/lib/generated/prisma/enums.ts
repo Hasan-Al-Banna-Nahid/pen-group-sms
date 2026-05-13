@@ -17,3 +17,13 @@ export const EnrolmentStatus = {
 } as const
 
 export type EnrolmentStatus = (typeof EnrolmentStatus)[keyof typeof EnrolmentStatus]
+
+
+export const Classification = {
+  DISTINCTION: 'DISTINCTION',
+  MERIT: 'MERIT',
+  PASS: 'PASS',
+  FAIL: 'FAIL'
+} as const
+
+export type Classification = (typeof Classification)[keyof typeof Classification]

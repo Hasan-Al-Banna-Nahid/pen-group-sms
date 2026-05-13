@@ -4,3 +4,11 @@ enum EnrolmentStatus {
     WITHDRAWN
     COMPLETED
 }
+
+enum Classification {
+    DISTINCTION
+    MERIT
+    PASS
+    FAIL
+}
+

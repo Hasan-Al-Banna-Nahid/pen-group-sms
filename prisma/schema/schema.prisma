@@ -6,3 +6,13 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+/// @MAPPING ./student.prisma
+/// @MAPPING ./assessment.prisma
+/// @MAPPING ./grade.prisma
+/// @MAPPING ./module.prisma
+/// @MAPPING ./payment.prisma
+/// @MAPPING ./submission.prisma
+/// @MAPPING ./enums.prisma
+/// @MAPPING ./programme.prisma
+/// @MAPPING ./yearlySequence.prisma
