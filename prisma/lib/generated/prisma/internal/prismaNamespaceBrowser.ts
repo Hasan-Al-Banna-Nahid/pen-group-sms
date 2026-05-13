@@ -87,7 +87,7 @@ export const PaymentScalarFieldEnum = {
   id: 'id',
   amount: 'amount',
   date: 'date',
-  referenceNumber: 'referenceNumber',
+  reference: 'reference',
   studentId: 'studentId'
 } as const
 

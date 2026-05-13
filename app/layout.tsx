@@ -2,6 +2,11 @@ import type { Metadata } from "next";
 import { Quicksand } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import QueryProvider from "./providers/query-provider";
+import { Toaster } from "sonner";
+import { Navbar } from "./components/layout/navbar";
+import { RoleProvider } from "./context/role-context";
+import { RoleToggle } from "./components/layout/role-toggle";
 
 const font = Quicksand({
   variable: "--font-geist-sans",
@@ -21,7 +26,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={cn("h-full", "antialiased", font.className)}>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <QueryProvider>
+          <RoleProvider>
+            <Navbar />
+            {children}
+            <Toaster />
+            <RoleToggle />
+          </RoleProvider>
+        </QueryProvider>
+      </body>
     </html>
   );
 }
