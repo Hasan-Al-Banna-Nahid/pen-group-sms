@@ -71,15 +71,14 @@ export async function GET(
     if (financialStatus.status === "OUTSTANDING") {
       // Fetch all grades for the student, but mask sensitive information.
       const withheldGrades = await prisma.grade.findMany({
-        where: { studentId: studentId, isPublished: true },
-        select: {
-          id: true,
-          assessmentId: true,
-          isPublished: true,
-          isLate: true,
-          // For security and privacy, actual score and classification are not selected.
-          // They are replaced with a "WITHHELD" status.
-        },
+        where: { studentId: studentId },
+        include: {
+            assessment: {
+                include: {
+                    module: true
+                }
+            }
+        }
       });
 
       // Map the grades to include the "WITHHELD" status.
@@ -89,52 +88,23 @@ export async function GET(
         classification: "WITHHELD",
       }));
 
-      return NextResponse.json({
-        studentId: student.studentId,
-        fullName: student.fullName,
-        financialStatus: financialStatus.status,
-        grades: formattedWithheldGrades,
-        message: "Grades are withheld due to an outstanding balance.",
-      });
+      return NextResponse.json(formattedWithheldGrades);
     }
 
     // If there is no outstanding balance, fetch and return the actual grades.
     const grades = await prisma.grade.findMany({
-      where: { studentId: studentId, isPublished: true },
+      where: { studentId: studentId },
       include: {
         assessment: {
-          select: {
-            title: true,
-            weightage: true,
-            deadline: true,
-          },
+          include: {
+            module: true
+          }
         },
       },
     });
 
-    // Format the grades to include relevant assessment details.
-    const formattedGrades = grades.map((grade) => ({
-      id: grade.id,
-      assessment: {
-        id: grade.assessmentId,
-        title: grade.assessment.title,
-        weightage: grade.assessment.weightage,
-        deadline: grade.assessment.deadline,
-      },
-      score: grade.score,
-      classification: grade.classification,
-      isLate: grade.isLate,
-      isPublished: grade.isPublished,
-      createdAt: grade.createdAt,
-    }));
-
-    // Return the student's grades and financial status.
-    return NextResponse.json({
-      studentId: student.studentId,
-      fullName: student.fullName,
-      financialStatus: financialStatus.status,
-      grades: formattedGrades,
-    });
+    // Return the student's grades.
+    return NextResponse.json(grades);
   } catch (error: any) {
     console.error("Critical Student Results API Error:", error);
     return NextResponse.json(

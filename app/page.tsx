@@ -25,14 +25,14 @@ export default function HomePage() {
         {/* Module Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* 1. Student Enrolment */}
-          <Link href="/students">
+          <Link href="/registry">
             <div className="group border rounded-2xl p-6 bg-white hover:shadow-md transition cursor-pointer">
               <div className="flex items-center justify-between">
                 <Users className="h-6 w-6 text-blue-600" />
                 <ArrowRight className="h-4 w-4 text-gray-400 group-hover:translate-x-1 transition" />
               </div>
 
-              <h2 className="text-xl font-semibold mt-4">Student Enrolment</h2>
+              <h2 className="text-xl font-semibold mt-4">Registry Module</h2>
               <p className="text-sm text-gray-500 mt-2">
                 Create and manage student records, assign Student IDs, and track
                 status.
@@ -41,7 +41,7 @@ export default function HomePage() {
           </Link>
 
           {/* 2. Fees & Payments */}
-          <Link href="/fees">
+          <Link href="/payments">
             <div className="group border rounded-2xl p-6 bg-white hover:shadow-md transition cursor-pointer">
               <div className="flex items-center justify-between">
                 <CreditCard className="h-6 w-6 text-green-600" />
