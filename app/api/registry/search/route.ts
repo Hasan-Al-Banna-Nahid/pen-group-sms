@@ -61,9 +61,9 @@ export async function GET(req: Request) {
     // Filter by financial status after calculating it
     if (financialStatus) {
       students = students.filter((student) => {
-        const totalFees = student.totalFees; // Assuming totalFees is correctly populated
+        const totalFees = student.totalFees; 
         const totalPaid = student.payments.reduce((sum, payment) => sum + payment.amount, 0);
-        const studentFinancialStatus = getFinancialStatus(totalFees, totalPaid);
+        const studentFinancialStatus = getFinancialStatus(totalFees, totalPaid, student.feeDueDate);
 
         if (financialStatus === "SETTLED") {
           return studentFinancialStatus.status === "SETTLED";
@@ -80,11 +80,12 @@ export async function GET(req: Request) {
     const formattedStudents = students.map((student) => {
       const totalFees = student.totalFees;
       const totalPaid = student.payments.reduce((sum, payment) => sum + payment.amount, 0);
-      const financialInfo = getFinancialStatus(totalFees, totalPaid);
+      const financialInfo = getFinancialStatus(totalFees, totalPaid, student.feeDueDate);
       return {
         ...student,
         financialStatus: financialInfo.status,
         isCriticalOverdue: financialInfo.isCritical,
+        isOverdue: financialInfo.isOverdue, // Added for UI if needed
         programmeName: student.programme?.name,
         balance: financialInfo.balance,
       };

@@ -10,6 +10,7 @@ model Student {
     status       EnrolmentStatus @default(ENROLLED)
     feeAmount    Float
     totalFees    Float           @default(0.0)
+    feeDueDate   DateTime?
     grades       Grade[]
     payments     Payment[]
     submissions  Submission[]

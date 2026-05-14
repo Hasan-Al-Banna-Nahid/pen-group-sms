@@ -146,6 +146,7 @@ export const StudentScalarFieldEnum = {
   status: 'status',
   feeAmount: 'feeAmount',
   totalFees: 'totalFees',
+  feeDueDate: 'feeDueDate',
   createdAt: 'createdAt'
 } as const
 

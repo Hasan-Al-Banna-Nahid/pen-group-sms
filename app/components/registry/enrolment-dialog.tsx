@@ -174,20 +174,34 @@ export function EnrolmentDialog() {
           </div>
 
           {/* FEE */}
-          <div className="space-y-1">
-            <label className="text-sm font-medium">Fee Amount</label>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <label className="text-sm font-medium">Fee Amount</label>
 
-            <Input
-              type="number"
-              placeholder="10000"
-              {...register("feeAmount", {
-                valueAsNumber: true,
-              })}
-            />
+              <Input
+                type="number"
+                placeholder="10000"
+                {...register("feeAmount", {
+                  valueAsNumber: true,
+                })}
+              />
 
-            {errors.feeAmount && (
-              <p className="text-sm text-red-500">{errors.feeAmount.message}</p>
-            )}
+              {errors.feeAmount && (
+                <p className="text-sm text-red-500">{errors.feeAmount.message}</p>
+              )}
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-sm font-medium">Fee Due Date</label>
+
+              <Input type="date" {...register("feeDueDate")} />
+
+              {errors.feeDueDate && (
+                <p className="text-sm text-red-500">
+                  {errors.feeDueDate.message?.toString()}
+                </p>
+              )}
+            </div>
           </div>
 
           {/* STATUS */}

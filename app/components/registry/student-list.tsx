@@ -73,16 +73,8 @@ export function StudentList({ searchQuery, role }: StudentListProps) {
 
         <TableBody>
           {filteredStudents.map((student: any) => {
-            /**
-             * Business Logic: Calculate balance in real-time
-             */
-            const totalPaid =
-              student.payments?.reduce(
-                (sum: number, p: any) => sum + p.amount,
-                0,
-              ) || 0;
-            const balance = (student.feeAmount || 0) - totalPaid;
-            const isOverdue = balance > 0;
+            const balance = student.balance;
+            const isOverdue = student.isOverdue;
 
             return (
               <TableRow

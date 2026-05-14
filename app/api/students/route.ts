@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { enrolmentSchema } from "@/lib/validations/student";
 import prisma from "@/lib/prisma";
 import { generateStudentId } from "@/utils/studentIdGenerator";
+import { getFinancialStatus } from "@/lib/financial-logic";
 
 /**
  * @desc Get all students for the Registry Dashboard [cite: 16, 21]
@@ -10,10 +11,31 @@ export async function GET() {
   try {
     const students = await prisma.student.findMany({
       orderBy: { createdAt: "desc" },
-      include: { payments: true }, // Include payments to calculate balance in real-time [cite: 20]
+      include: { 
+        payments: true,
+        programme: {
+          select: { name: true }
+        }
+      },
     });
-    return NextResponse.json(students);
+
+    const formattedStudents = students.map((student) => {
+      const totalPaid = student.payments.reduce((sum, p) => sum + p.amount, 0);
+      const financialInfo = getFinancialStatus(student.totalFees, totalPaid, student.feeDueDate);
+      
+      return {
+        ...student,
+        balance: financialInfo.balance,
+        isOverdue: financialInfo.isOverdue,
+        isCriticalOverdue: financialInfo.isCritical,
+        financialStatus: financialInfo.status,
+        programme: student.programme?.name || "Unassigned"
+      };
+    });
+
+    return NextResponse.json(formattedStudents);
   } catch (error) {
+    console.error("GET_STUDENTS_ERROR:", error);
     return NextResponse.json(
       { error: "Failed to fetch students" },
       { status: 500 },
@@ -52,7 +74,10 @@ export async function POST(req: Request) {
             studentId: studentId,
             dob: new Date(validatedData.dob),
             totalFees: baseFee, // Set totalFees from programme's baseFee
-            feeAmount: baseFee // Also set feeAmount from programme's baseFee
+            feeAmount: baseFee, // Also set feeAmount from programme's baseFee
+            feeDueDate: validatedData.feeDueDate 
+              ? new Date(validatedData.feeDueDate) 
+              : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // Default 30 days
           },
         });
       },
