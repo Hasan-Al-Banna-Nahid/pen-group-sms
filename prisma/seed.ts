@@ -1,10 +1,8 @@
 import "dotenv/config";
-
 import pg from "pg";
 import { PrismaPg } from "@prisma/adapter-pg";
-
 import { generateStudentId } from "../utils/studentIdGenerator";
-import { EnrolmentStatus, PrismaClient } from "./lib/generated/prisma/client";
+import { EnrolmentStatus, Classification, PrismaClient } from "./lib/generated/prisma/client";
 
 const connectionString = process.env.DATABASE_URL!;
 
@@ -21,7 +19,7 @@ const prisma = new PrismaClient({
 async function main() {
   console.log("🚀 Starting seed...");
 
-  // Cleanup
+  // Cleanup in correct order to avoid foreign key violations
   await prisma.grade.deleteMany();
   await prisma.submission.deleteMany();
   await prisma.payment.deleteMany();
@@ -33,184 +31,151 @@ async function main() {
 
   console.log("🧹 Database cleaned");
 
-  // Programmes
-  const bscCs = await prisma.programme.create({
+  // 1. Two Programmes (CS and Business) with different fees
+  const csProgramme = await prisma.programme.create({
     data: {
-      name: "BSc Computer Science",
-      baseFee: 9000,
+      name: "Computer Science",
+      baseFee: 10000,
     },
   });
 
-  const mscDs = await prisma.programme.create({
+  const businessProgramme = await prisma.programme.create({
     data: {
-      name: "MSc Data Science",
-      baseFee: 12000,
+      name: "Business Management",
+      baseFee: 8000,
     },
   });
 
-  console.log("✅ Programmes created");
+  console.log("✅ Programmes created: CS and Business");
 
   // Modules
-  const comp101 = await prisma.module.create({
+  const csModule = await prisma.module.create({
     data: {
-      code: "COMP101",
-      name: "Introduction to Programming",
+      code: "CS101",
+      name: "Algorithms & Data Structures",
       credits: 20,
     },
   });
 
-  const data501 = await prisma.module.create({
+  const bizModule = await prisma.module.create({
     data: {
-      code: "DATA501",
-      name: "Advanced Data Analytics",
-      credits: 20,
+      code: "BUS101",
+      name: "Principles of Management",
+      credits: 15,
     },
   });
 
   console.log("✅ Modules created");
 
-  // Assessments
-  const assessment1 = await prisma.assessment.create({
+  // 4. One Assessment with a past deadline
+  const pastDeadline = new Date();
+  pastDeadline.setDate(pastDeadline.getDate() - 7); // 7 days ago
+
+  const csAssessment = await prisma.assessment.create({
     data: {
-      title: "Programming Fundamentals Assignment",
+      title: "Mid-term Project",
       maxMarks: 100,
-      weightage: 50,
-      deadline: new Date("2026-05-20T23:59:59Z"),
-      moduleId: comp101.id,
+      weightage: 40,
+      deadline: pastDeadline,
+      moduleId: csModule.id,
     },
   });
 
-  const assessment2 = await prisma.assessment.create({
+  const bizAssessment = await prisma.assessment.create({
     data: {
-      title: "Big Data Case Study",
+      title: "Business Case Analysis",
       maxMarks: 100,
-      weightage: 50,
-      deadline: new Date("2026-06-15T23:59:59Z"),
-      moduleId: data501.id,
+      weightage: 30,
+      deadline: new Date("2026-12-01"),
+      moduleId: bizModule.id,
     },
   });
 
-  console.log("✅ Assessments created");
+  console.log("✅ Assessments created (one with past deadline)");
 
-  // STUDENT A
-  await prisma.$transaction(async (tx: any) => {
-    const generatedId = await generateStudentId(tx);
+  // 2. Five Students with auto-generated IDs
+  const studentData = [
+    { fullName: "John Doe", email: "john@example.com", programmeId: csProgramme.id, feeAmount: 10000 },
+    { fullName: "Jane Smith", email: "jane@example.com", programmeId: csProgramme.id, feeAmount: 10000 },
+    { fullName: "Alice Brown", email: "alice@example.com", programmeId: businessProgramme.id, feeAmount: 8000 },
+    { fullName: "Bob Wilson", email: "bob@example.com", programmeId: businessProgramme.id, feeAmount: 8000 },
+    { fullName: "Charlie Davis", email: "charlie@example.com", programmeId: csProgramme.id, feeAmount: 10000 },
+  ];
 
-    const student = await tx.student.create({
-      data: {
-        studentId: generatedId,
-        fullName: "Hasan Al Banna Nahid",
-        email: "nahid@example.com",
-        dob: new Date("2001-01-01"),
+  const students = [];
 
-        programmeId: bscCs.id,
-
-        academicYear: "2026/2027",
-
-        status: EnrolmentStatus.ENROLLED,
-
-        feeAmount: bscCs.baseFee,
-        totalFees: bscCs.baseFee,
-      },
+  for (const data of studentData) {
+    const student = await prisma.$transaction(async (tx) => {
+      const studentId = await generateStudentId(tx);
+      return await tx.student.create({
+        data: {
+          studentId,
+          fullName: data.fullName,
+          email: data.email,
+          dob: new Date("2000-01-01"),
+          programmeId: data.programmeId,
+          academicYear: "2026",
+          status: EnrolmentStatus.ENROLLED,
+          feeAmount: data.feeAmount,
+          totalFees: data.feeAmount,
+          feeDueDate: new Date("2026-12-31"),
+        },
+      });
     });
+    students.push(student);
+    console.log(`✅ Student created: ${student.fullName} (${student.studentId})`);
+  }
 
-    // Payment
-    await tx.payment.create({
-      data: {
-        studentId: student.id,
-        amount: 5000,
-        reference: "PAY-001",
-      },
-    });
+  // 3. Ensure one student has a 'Critical Overdue' balance
+  // John Doe (students[0]) will be critical due to past due date and no payments.
+  const pastDueDate = new Date();
+  pastDueDate.setDate(pastDueDate.getDate() - 30); // 30 days ago
 
-    // Submission
-    await tx.submission.create({
-      data: {
-        studentId: student.id,
-        assessmentId: assessment1.id,
-        fileUrl: "/uploads/nahid-assignment.pdf",
-        isLate: false,
-      },
-    });
+  await prisma.student.update({
+    where: { id: students[0].id },
+    data: {
+      feeDueDate: pastDueDate,
+    },
+  });
+  console.log(`⚠️ Student ${students[0].fullName} set to Critical Overdue (Past Due Date)`);
 
-    // Grade
-    await tx.grade.create({
-      data: {
-        studentId: student.id,
-        assessmentId: assessment1.id,
+  // 4. Create a 'Late Submission' from a student for the past assessment
+  // Jane Smith (students[1]) will submit late.
+  const lateSubmissionDate = new Date();
+  lateSubmissionDate.setDate(pastDeadline.getDate() + 1); // 1 day after deadline
 
-        score: 85,
+  await prisma.submission.create({
+    data: {
+      studentId: students[1].id,
+      assessmentId: csAssessment.id,
+      fileUrl: "/uploads/late-assignment.pdf",
+      submittedAt: lateSubmissionDate,
+      isLate: true,
+    },
+  });
+  console.log(`🚩 Late submission created for ${students[1].fullName}`);
 
-        classification: "DISTINCTION",
-
-        isPublished: true,
-
-        feedback: "Excellent work",
-      },
-    });
-
-    console.log(`✅ Student created: ${student.fullName}`);
+  // Normal submission for Charlie
+  await prisma.submission.create({
+    data: {
+      studentId: students[4].id,
+      assessmentId: csAssessment.id,
+      fileUrl: "/uploads/ontime-assignment.pdf",
+      submittedAt: pastDeadline,
+      isLate: false,
+    },
   });
 
-  // STUDENT B
-  await prisma.$transaction(async (tx: any) => {
-    const generatedId = await generateStudentId(tx);
-
-    const student = await tx.student.create({
-      data: {
-        studentId: generatedId,
-
-        fullName: "Alice Johnson",
-
-        email: "alice@example.com",
-
-        dob: new Date("2000-09-12"),
-
-        programmeId: mscDs.id,
-
-        academicYear: "2026/2027",
-
-        status: EnrolmentStatus.ENROLLED,
-
-        feeAmount: mscDs.baseFee,
-
-        totalFees: mscDs.baseFee,
-      },
-    });
-
-    await tx.payment.create({
-      data: {
-        studentId: student.id,
-        amount: 3000,
-        reference: "PAY-002",
-      },
-    });
-
-    await tx.submission.create({
-      data: {
-        studentId: student.id,
-        assessmentId: assessment2.id,
-        fileUrl: "/uploads/alice-case-study.pdf",
-        isLate: true,
-      },
-    });
-
-    await tx.grade.create({
-      data: {
-        studentId: student.id,
-        assessmentId: assessment2.id,
-
-        score: 62,
-
-        classification: "MERIT",
-
-        isPublished: false,
-
-        feedback: "Good work but late submission",
-      },
-    });
-
-    console.log(`✅ Student created: ${student.fullName}`);
+  // Add a grade for Jane Smith to test visual flags in assessment card
+  await prisma.grade.create({
+    data: {
+      studentId: students[1].id,
+      assessmentId: csAssessment.id,
+      score: 45,
+      classification: Classification.PASS,
+      isPublished: true,
+      feedback: "Submitted late, but passed.",
+    },
   });
 
   console.log("🎉 Seed completed successfully");
@@ -220,7 +185,6 @@ main()
   .catch((error) => {
     console.error("❌ Seed failed");
     console.error(error);
-
     process.exit(1);
   })
   .finally(async () => {
