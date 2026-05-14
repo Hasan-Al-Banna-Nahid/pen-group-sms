@@ -9,17 +9,21 @@ export function GradeStudent({ submission }: { submission: any }) {
   const [score, setScore] = useState("");
 
   const submitGrade = async () => {
-    const res = await fetch("/api/grades", {
+    const res = await fetch("/api/grade", {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         studentId: submission.student.id,
         assessmentId: submission.assessmentId,
-        score: score,
+        score: Number(score),
       }),
     });
 
-    if (res.ok)
+    if (res.ok) {
       toast.success(`Graded ${submission.student.fullName} successfully!`);
+    } else {
+      toast.error("Failed to save grade");
+    }
   };
 
   return (

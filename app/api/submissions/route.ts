@@ -19,6 +19,45 @@ export async function POST(req: Request) {
       );
     }
 
+    // 1b. File Type Validation
+    const allowedExtensions = [".pdf", ".docx"];
+    const fileName = file.name.toLowerCase();
+    if (!allowedExtensions.some(ext => fileName.endsWith(ext))) {
+      return NextResponse.json(
+        { error: "Only .pdf and .docx files are allowed" },
+        { status: 400 },
+      );
+    }
+
+    // 1c. Fetch Assessment for Deadline & Existing Submission for logic
+    const assessment = await prisma.assessment.findUnique({
+      where: { id: assessmentId },
+    });
+
+    if (!assessment) {
+      return NextResponse.json(
+        { error: "Assessment not found" },
+        { status: 404 },
+      );
+    }
+
+    const existingSubmission = await prisma.submission.findUnique({
+      where: {
+        studentId_assessmentId: { studentId, assessmentId },
+      },
+    });
+
+    const now = new Date();
+    const isLate = now > new Date(assessment.deadline);
+
+    // Logic: Prevent resubmission after deadline
+    if (existingSubmission && isLate) {
+      return NextResponse.json(
+        { error: "Resubmission not allowed after deadline" },
+        { status: 400 },
+      );
+    }
+
     // 2. Setup Upload Directory (Safe Path)
     const uploadDir = join(process.cwd(), "public", "uploads");
 
@@ -63,12 +102,14 @@ export async function POST(req: Request) {
       update: {
         fileUrl,
         submittedAt: new Date(),
+        isLate,
       },
       create: {
         fileUrl,
         studentId,
         assessmentId,
         submittedAt: new Date(),
+        isLate,
       },
     });
 

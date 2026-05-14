@@ -72,14 +72,18 @@ export const AssessmentCard = ({
 
     const isLate =
       submission &&
-      new Date(submission.createdAt) > new Date(currentAssessment.deadline);
+      new Date(submission.submittedAt) > new Date(currentAssessment.deadline);
     const isDeadlinePassed = new Date() > new Date(currentAssessment.deadline);
+
+    // Logic: Only allow late submission if NO submission exists
+    const canSubmit = !isDeadlinePassed || !submission;
 
     return {
       submission,
       grade: gradeRecord,
       isLate,
       isDeadlinePassed,
+      canSubmit,
       status: gradeRecord ? getClass(gradeRecord.score) : null,
     };
   }, [currentAssessment, selectedStudentId]);
@@ -123,13 +127,16 @@ export const AssessmentCard = ({
         method: "POST",
         body: formData,
       });
-      if (!res.ok) throw new Error("File Vault error");
-      return res.json();
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "File Vault error");
+      return data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["assessments"] });
       toast.success("Script uploaded to Registry");
     },
+    onError: (err: any) => toast.error(err.message),
   });
 
   const isStaff = String(role).toUpperCase() === "STAFF";
@@ -278,7 +285,7 @@ export const AssessmentCard = ({
             {/* STUDENT WORKFLOW: Advanced Resubmission Control */}
             {isStudent && (
               <div className="pt-2">
-                {studentData?.isDeadlinePassed ? (
+                {!studentData?.canSubmit ? (
                   <div className="p-4 bg-rose-50 border border-rose-100 rounded-2xl text-rose-500 text-[10px] font-black uppercase text-center flex items-center justify-center gap-2">
                     <AlertCircle className="h-4 w-4" /> Portal Closed: Deadline
                     Passed
@@ -308,14 +315,14 @@ export const AssessmentCard = ({
                       type="file"
                       className="hidden"
                       ref={fileInputRef}
-                      accept=".pdf"
+                      accept=".pdf,.docx"
                       onChange={(e) =>
                         e.target.files?.[0] &&
                         uploadMutation.mutate(e.target.files[0])
                       }
                     />
                     <p className="text-[8px] text-center text-slate-400 uppercase mt-2">
-                      Allowed: PDF only (Max 10MB)
+                      Allowed: PDF, DOCX (Max 10MB)
                     </p>
                   </>
                 )}
