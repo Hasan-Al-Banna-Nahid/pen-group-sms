@@ -31,6 +31,7 @@ export const AssessmentCard = ({
 
   const [selectedStudentId, setSelectedStudentId] = useState("");
   const [scoreInput, setScoreInput] = useState<number | "">("");
+  const [isPublishedInput, setIsPublishedInput] = useState(true);
 
   // Real-time synchronization
   const { data: assessments, isError } = useQuery({
@@ -90,7 +91,11 @@ export const AssessmentCard = ({
 
   useEffect(() => {
     setScoreInput(studentData?.grade ? studentData.grade.score : "");
-  }, [studentData?.grade, selectedStudentId]);
+    const selectedStudent = students?.find((s: any) => s.id === selectedStudentId);
+    if (selectedStudent) {
+      setIsPublishedInput(!selectedStudent.isOverdue);
+    }
+  }, [studentData?.grade, selectedStudentId, students]);
 
   // Grading Mutation with Blur Effect State
   const gradingMutation = useMutation({
@@ -103,15 +108,15 @@ export const AssessmentCard = ({
           studentId: selectedStudentId,
           assessmentId: currentAssessment.id,
           score,
-          isPublished: true,
+          isPublished: isPublishedInput,
         }),
       });
       if (!res.ok) throw new Error("Registry Update Failed");
       return res.json();
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["assessments"] });
-      toast.success("Marks synced and published");
+      toast.success(data.isPublished ? "Marks synced and published" : "Marks synced and withheld");
     },
     onError: (err: any) => toast.error(err.message),
   });
@@ -259,9 +264,16 @@ export const AssessmentCard = ({
             {/* STAFF WORKFLOW: Grading Panel */}
             {isStaff && (
               <div className="p-5 border-2 border-slate-100 rounded-[2.5rem] bg-white shadow-sm space-y-3">
-                <p className="text-[10px] font-black uppercase text-slate-400">
-                  Admin Grading
-                </p>
+                <div className="flex justify-between items-center">
+                  <p className="text-[10px] font-black uppercase text-slate-400">
+                    Admin Grading
+                  </p>
+                  {students?.find((s: any) => s.id === selectedStudentId)?.isOverdue && (
+                    <Badge variant="destructive" className="bg-red-50 text-red-700 border-red-200 text-[8px] animate-pulse">
+                      Withhold Suggested (Fees Overdue)
+                    </Badge>
+                  )}
+                </div>
                 <div className="flex gap-2">
                   <Input
                     type="number"
@@ -278,6 +290,18 @@ export const AssessmentCard = ({
                   >
                     <Save className="h-5 w-5" />
                   </Button>
+                </div>
+                <div className="flex items-center gap-2 mt-2">
+                  <input
+                    type="checkbox"
+                    id="publish-toggle"
+                    className="h-4 w-4 rounded border-gray-300 text-slate-900 focus:ring-slate-900"
+                    checked={isPublishedInput}
+                    onChange={(e) => setIsPublishedInput(e.target.checked)}
+                  />
+                  <label htmlFor="publish-toggle" className="text-[10px] font-bold text-slate-500 uppercase">
+                    Publish to Student Portal
+                  </label>
                 </div>
               </div>
             )}

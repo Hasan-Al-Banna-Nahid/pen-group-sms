@@ -10,23 +10,30 @@ export async function GET(req: Request) {
     // Define Zod schema for query parameters
     const querySchema = z.object({
       query: z.string().optional(),
-      enrolmentStatus: z.enum(["ENROLLED", "WITHDRAWN", "COMPLETED"]).optional(),
-      financialStatus: z.enum(["SETTLED", "OUTSTANDING", "CRITICAL_OVERDUE"]).optional(),
+      enrolmentStatus: z
+        .enum(["ENROLLED", "WITHDRAWN", "COMPLETED"])
+        .optional(),
+      financialStatus: z
+        .enum(["SETTLED", "OUTSTANDING", "CRITICAL_OVERDUE"])
+        .optional(),
     });
 
-    const validatedQueryParams = querySchema.safeParse(Object.fromEntries(searchParams));
+    const validatedQueryParams = querySchema.safeParse(
+      Object.fromEntries(searchParams),
+    );
 
     if (!validatedQueryParams.success) {
       return NextResponse.json(
         {
           error: "Invalid query parameters",
-          details: validatedQueryParams.error.errors,
+          details: validatedQueryParams.error,
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
-    const { query, enrolmentStatus, financialStatus } = validatedQueryParams.data;
+    const { query, enrolmentStatus, financialStatus } =
+      validatedQueryParams.data;
 
     let students = await prisma.student.findMany({
       where: {
@@ -37,7 +44,11 @@ export async function GET(req: Request) {
                 OR: [
                   { fullName: { contains: query, mode: "insensitive" } },
                   { studentId: { contains: query, mode: "insensitive" } },
-                  { programme: { name: { contains: query, mode: "insensitive" } } },
+                  {
+                    programme: {
+                      name: { contains: query, mode: "insensitive" },
+                    },
+                  },
                 ],
               }
             : {},
@@ -48,6 +59,10 @@ export async function GET(req: Request) {
           select: {
             amount: true,
           },
+        },
+        grades: {
+          where: { isPublished: false },
+          select: { id: true },
         },
         programme: {
           select: {
@@ -61,14 +76,24 @@ export async function GET(req: Request) {
     // Filter by financial status after calculating it
     if (financialStatus) {
       students = students.filter((student) => {
-        const totalFees = student.totalFees; 
-        const totalPaid = student.payments.reduce((sum, payment) => sum + payment.amount, 0);
-        const studentFinancialStatus = getFinancialStatus(totalFees, totalPaid, student.feeDueDate);
+        const totalFees = student.totalFees;
+        const totalPaid = student.payments.reduce(
+          (sum, payment) => sum + payment.amount,
+          0,
+        );
+        const studentFinancialStatus = getFinancialStatus(
+          totalFees,
+          totalPaid,
+          student.feeDueDate,
+        );
 
         if (financialStatus === "SETTLED") {
           return studentFinancialStatus.status === "SETTLED";
         } else if (financialStatus === "OUTSTANDING") {
-          return studentFinancialStatus.status === "OUTSTANDING" && !studentFinancialStatus.isCritical;
+          return (
+            studentFinancialStatus.status === "OUTSTANDING" &&
+            !studentFinancialStatus.isCritical
+          );
         } else if (financialStatus === "CRITICAL_OVERDUE") {
           return studentFinancialStatus.isCritical;
         }
@@ -79,8 +104,15 @@ export async function GET(req: Request) {
     // Format the students to include financial status
     const formattedStudents = students.map((student) => {
       const totalFees = student.totalFees;
-      const totalPaid = student.payments.reduce((sum, payment) => sum + payment.amount, 0);
-      const financialInfo = getFinancialStatus(totalFees, totalPaid, student.feeDueDate);
+      const totalPaid = student.payments.reduce(
+        (sum, payment) => sum + payment.amount,
+        0,
+      );
+      const financialInfo = getFinancialStatus(
+        totalFees,
+        totalPaid,
+        student.feeDueDate,
+      );
       return {
         ...student,
         financialStatus: financialInfo.status,
@@ -88,9 +120,9 @@ export async function GET(req: Request) {
         isOverdue: financialInfo.isOverdue, // Added for UI if needed
         programmeName: student.programme?.name,
         balance: financialInfo.balance,
+        withheldCount: student.grades.length,
       };
     });
-
 
     return NextResponse.json(formattedStudents);
   } catch (error: any) {

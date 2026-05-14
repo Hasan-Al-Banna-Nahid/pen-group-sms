@@ -103,13 +103,18 @@ export function StudentList({ searchQuery, role }: StudentListProps) {
 
                 <TableCell>
                   {isOverdue ? (
-                    <Badge
-                      variant="destructive"
-                      className="bg-red-50 text-red-700 border-red-200 hover:bg-red-100 flex w-fit gap-1"
-                    >
-                      <span className="h-1.5 w-1.5 rounded-full bg-red-600 animate-pulse" />
-                      £{balance} Overdue
-                    </Badge>
+                    <div className="flex flex-col gap-1">
+                      <Badge
+                        variant="destructive"
+                        className="bg-red-50 text-red-700 border-red-200 hover:bg-red-100 flex w-fit gap-1"
+                      >
+                        <span className="h-1.5 w-1.5 rounded-full bg-red-600 animate-pulse" />
+                        £{balance} Overdue
+                      </Badge>
+                      <Badge variant="outline" className="text-[10px] text-amber-600 border-amber-200 bg-amber-50 w-fit">
+                        Withhold Results Suggested
+                      </Badge>
+                    </div>
                   ) : (
                     <Badge className="bg-green-50 text-green-700 border-green-200 hover:bg-green-100">
                       Fully Paid

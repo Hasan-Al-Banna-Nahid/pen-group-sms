@@ -79,7 +79,7 @@ export default function RegistryDashboard() {
   const totalOutstandingRevenue = students.reduce((sum, student) => {
     return sum + (student.financialStatus !== "SETTLED" ? student.balance : 0);
   }, 0);
-  const numberOfWithheldResults = 0;
+  const numberOfWithheldResults = students.reduce((sum, student: any) => sum + (student.withheldCount || 0), 0);
 
   // Authorization Check
   if (role !== "STAFF") {

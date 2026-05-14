@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { z } from "zod";
+import { getFinancialStatus } from "@/lib/financial-logic";
 
 // Define Zod schema for input validation for the grading API.
 // Ensures that `studentId`, `assessmentId`, and `score` are present and correctly typed.
@@ -8,6 +9,7 @@ const gradeSubmissionSchema = z.object({
   studentId: z.string().min(1, "Student ID is required."),
   assessmentId: z.string().min(1, "Assessment ID is required."),
   score: z.number().min(0).max(100, "Score must be between 0 and 100."),
+  isPublished: z.boolean().optional(),
 });
 
 // GET method to retrieve a specific grade for a student and assessment.
@@ -48,7 +50,23 @@ export async function POST(req: Request) {
       );
     }
 
-    const { studentId, assessmentId, score } = validation.data;
+    const { studentId, assessmentId, score, isPublished } = validation.data;
+
+    // Fetch student information to check financial standing.
+    const student = await prisma.student.findUnique({
+      where: { id: studentId },
+      include: {
+        payments: { select: { amount: true } },
+      },
+    });
+
+    if (!student) {
+      return NextResponse.json({ error: "Student not found" }, { status: 404 });
+    }
+
+    // Calculate financial status
+    const totalPaid = student.payments.reduce((sum, p) => sum + p.amount, 0);
+    const financialStatus = getFinancialStatus(student.totalFees, totalPaid, student.feeDueDate);
 
     // Determine the classification based on the score.
     // This provides a clear, rule-based academic classification.
@@ -84,6 +102,14 @@ export async function POST(req: Request) {
     // The `isLate` flag is crucial for academic reporting and potential penalties.
     const isLate = new Date() > assessment.deadline;
 
+    // Business Rule: If student has overdue balance, we might want to withhold results automatically.
+    // If isPublished is not explicitly provided, we withhold if overdue.
+    // If it IS provided, we respect it (allowing admin override), but we can log it.
+    let finalPublishStatus = isPublished ?? true;
+    if (financialStatus.isOverdue && isPublished === undefined) {
+      finalPublishStatus = false;
+    }
+
     // Upsert (update or insert) the grade record in the database.
     // This handles both new grade submissions and updates to existing grades.
     const updatedGrade = await prisma.grade.upsert({
@@ -97,7 +123,7 @@ export async function POST(req: Request) {
         score: score,
         classification: classification,
         isLate: isLate,
-        isPublished: true, // Mark as published upon staff entry.
+        isPublished: finalPublishStatus,
       },
       create: {
         studentId,
@@ -105,12 +131,14 @@ export async function POST(req: Request) {
         score: score,
         classification: classification,
         isLate: isLate,
-        isPublished: true, // Mark as published upon staff entry.
+        isPublished: finalPublishStatus,
       },
     });
 
-    // Return the updated or created grade record.
-    return NextResponse.json(updatedGrade);
+    return NextResponse.json({
+      ...updatedGrade,
+      warning: financialStatus.isOverdue ? "Student has an overdue balance. Result publication might be restricted." : null
+    });
   } catch (error: any) {
     // Log any critical errors for debugging purposes.
     console.error("Critical Grading API Error [POST /api/grade]:", error);
@@ -125,3 +153,4 @@ export async function POST(req: Request) {
     );
   }
 }
+
