@@ -19,6 +19,15 @@ export const EnrolmentStatus = {
 export type EnrolmentStatus = (typeof EnrolmentStatus)[keyof typeof EnrolmentStatus]
 
 
+export const FinancialStatus = {
+  SETTLED: 'SETTLED',
+  OUTSTANDING: 'OUTSTANDING',
+  CRITICAL_OVERDUE: 'CRITICAL_OVERDUE'
+} as const
+
+export type FinancialStatus = (typeof FinancialStatus)[keyof typeof FinancialStatus]
+
+
 export const Classification = {
   DISTINCTION: 'DISTINCTION',
   MERIT: 'MERIT',

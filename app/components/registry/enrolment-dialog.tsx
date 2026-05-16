@@ -60,7 +60,7 @@ export function EnrolmentDialog() {
       email: "",
       dob: "",
       programmeId: "",
-      academicYear: "2025/26",
+      academicYear: "2026",
       feeAmount: 0,
       status: "ENROLLED",
     },

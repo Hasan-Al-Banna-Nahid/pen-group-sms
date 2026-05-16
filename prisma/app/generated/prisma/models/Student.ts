@@ -45,6 +45,7 @@ export type StudentMinAggregateOutputType = {
   programmeId: string | null
   academicYear: string | null
   status: $Enums.EnrolmentStatus | null
+  financialStatus: $Enums.FinancialStatus | null
   feeAmount: number | null
   totalFees: number | null
   feeDueDate: Date | null
@@ -60,6 +61,7 @@ export type StudentMaxAggregateOutputType = {
   programmeId: string | null
   academicYear: string | null
   status: $Enums.EnrolmentStatus | null
+  financialStatus: $Enums.FinancialStatus | null
   feeAmount: number | null
   totalFees: number | null
   feeDueDate: Date | null
@@ -75,6 +77,7 @@ export type StudentCountAggregateOutputType = {
   programmeId: number
   academicYear: number
   status: number
+  financialStatus: number
   feeAmount: number
   totalFees: number
   feeDueDate: number
@@ -102,6 +105,7 @@ export type StudentMinAggregateInputType = {
   programmeId?: true
   academicYear?: true
   status?: true
+  financialStatus?: true
   feeAmount?: true
   totalFees?: true
   feeDueDate?: true
@@ -117,6 +121,7 @@ export type StudentMaxAggregateInputType = {
   programmeId?: true
   academicYear?: true
   status?: true
+  financialStatus?: true
   feeAmount?: true
   totalFees?: true
   feeDueDate?: true
@@ -132,6 +137,7 @@ export type StudentCountAggregateInputType = {
   programmeId?: true
   academicYear?: true
   status?: true
+  financialStatus?: true
   feeAmount?: true
   totalFees?: true
   feeDueDate?: true
@@ -234,6 +240,7 @@ export type StudentGroupByOutputType = {
   programmeId: string | null
   academicYear: string
   status: $Enums.EnrolmentStatus
+  financialStatus: $Enums.FinancialStatus
   feeAmount: number
   totalFees: number
   feeDueDate: Date | null
@@ -272,6 +279,7 @@ export type StudentWhereInput = {
   programmeId?: Prisma.StringNullableFilter<"Student"> | string | null
   academicYear?: Prisma.StringFilter<"Student"> | string
   status?: Prisma.EnumEnrolmentStatusFilter<"Student"> | $Enums.EnrolmentStatus
+  financialStatus?: Prisma.EnumFinancialStatusFilter<"Student"> | $Enums.FinancialStatus
   feeAmount?: Prisma.FloatFilter<"Student"> | number
   totalFees?: Prisma.FloatFilter<"Student"> | number
   feeDueDate?: Prisma.DateTimeNullableFilter<"Student"> | Date | string | null
@@ -291,6 +299,7 @@ export type StudentOrderByWithRelationInput = {
   programmeId?: Prisma.SortOrderInput | Prisma.SortOrder
   academicYear?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  financialStatus?: Prisma.SortOrder
   feeAmount?: Prisma.SortOrder
   totalFees?: Prisma.SortOrder
   feeDueDate?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -313,6 +322,7 @@ export type StudentWhereUniqueInput = Prisma.AtLeast<{
   programmeId?: Prisma.StringNullableFilter<"Student"> | string | null
   academicYear?: Prisma.StringFilter<"Student"> | string
   status?: Prisma.EnumEnrolmentStatusFilter<"Student"> | $Enums.EnrolmentStatus
+  financialStatus?: Prisma.EnumFinancialStatusFilter<"Student"> | $Enums.FinancialStatus
   feeAmount?: Prisma.FloatFilter<"Student"> | number
   totalFees?: Prisma.FloatFilter<"Student"> | number
   feeDueDate?: Prisma.DateTimeNullableFilter<"Student"> | Date | string | null
@@ -332,6 +342,7 @@ export type StudentOrderByWithAggregationInput = {
   programmeId?: Prisma.SortOrderInput | Prisma.SortOrder
   academicYear?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  financialStatus?: Prisma.SortOrder
   feeAmount?: Prisma.SortOrder
   totalFees?: Prisma.SortOrder
   feeDueDate?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -355,6 +366,7 @@ export type StudentScalarWhereWithAggregatesInput = {
   programmeId?: Prisma.StringNullableWithAggregatesFilter<"Student"> | string | null
   academicYear?: Prisma.StringWithAggregatesFilter<"Student"> | string
   status?: Prisma.EnumEnrolmentStatusWithAggregatesFilter<"Student"> | $Enums.EnrolmentStatus
+  financialStatus?: Prisma.EnumFinancialStatusWithAggregatesFilter<"Student"> | $Enums.FinancialStatus
   feeAmount?: Prisma.FloatWithAggregatesFilter<"Student"> | number
   totalFees?: Prisma.FloatWithAggregatesFilter<"Student"> | number
   feeDueDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Student"> | Date | string | null
@@ -369,6 +381,7 @@ export type StudentCreateInput = {
   dob: Date | string
   academicYear: string
   status?: $Enums.EnrolmentStatus
+  financialStatus?: $Enums.FinancialStatus
   feeAmount: number
   totalFees?: number
   feeDueDate?: Date | string | null
@@ -388,6 +401,7 @@ export type StudentUncheckedCreateInput = {
   programmeId?: string | null
   academicYear: string
   status?: $Enums.EnrolmentStatus
+  financialStatus?: $Enums.FinancialStatus
   feeAmount: number
   totalFees?: number
   feeDueDate?: Date | string | null
@@ -405,6 +419,7 @@ export type StudentUpdateInput = {
   dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   academicYear?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumEnrolmentStatusFieldUpdateOperationsInput | $Enums.EnrolmentStatus
+  financialStatus?: Prisma.EnumFinancialStatusFieldUpdateOperationsInput | $Enums.FinancialStatus
   feeAmount?: Prisma.FloatFieldUpdateOperationsInput | number
   totalFees?: Prisma.FloatFieldUpdateOperationsInput | number
   feeDueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -424,6 +439,7 @@ export type StudentUncheckedUpdateInput = {
   programmeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   academicYear?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumEnrolmentStatusFieldUpdateOperationsInput | $Enums.EnrolmentStatus
+  financialStatus?: Prisma.EnumFinancialStatusFieldUpdateOperationsInput | $Enums.FinancialStatus
   feeAmount?: Prisma.FloatFieldUpdateOperationsInput | number
   totalFees?: Prisma.FloatFieldUpdateOperationsInput | number
   feeDueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -442,6 +458,7 @@ export type StudentCreateManyInput = {
   programmeId?: string | null
   academicYear: string
   status?: $Enums.EnrolmentStatus
+  financialStatus?: $Enums.FinancialStatus
   feeAmount: number
   totalFees?: number
   feeDueDate?: Date | string | null
@@ -456,6 +473,7 @@ export type StudentUpdateManyMutationInput = {
   dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   academicYear?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumEnrolmentStatusFieldUpdateOperationsInput | $Enums.EnrolmentStatus
+  financialStatus?: Prisma.EnumFinancialStatusFieldUpdateOperationsInput | $Enums.FinancialStatus
   feeAmount?: Prisma.FloatFieldUpdateOperationsInput | number
   totalFees?: Prisma.FloatFieldUpdateOperationsInput | number
   feeDueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -471,6 +489,7 @@ export type StudentUncheckedUpdateManyInput = {
   programmeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   academicYear?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumEnrolmentStatusFieldUpdateOperationsInput | $Enums.EnrolmentStatus
+  financialStatus?: Prisma.EnumFinancialStatusFieldUpdateOperationsInput | $Enums.FinancialStatus
   feeAmount?: Prisma.FloatFieldUpdateOperationsInput | number
   totalFees?: Prisma.FloatFieldUpdateOperationsInput | number
   feeDueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -501,6 +520,7 @@ export type StudentCountOrderByAggregateInput = {
   programmeId?: Prisma.SortOrder
   academicYear?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  financialStatus?: Prisma.SortOrder
   feeAmount?: Prisma.SortOrder
   totalFees?: Prisma.SortOrder
   feeDueDate?: Prisma.SortOrder
@@ -521,6 +541,7 @@ export type StudentMaxOrderByAggregateInput = {
   programmeId?: Prisma.SortOrder
   academicYear?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  financialStatus?: Prisma.SortOrder
   feeAmount?: Prisma.SortOrder
   totalFees?: Prisma.SortOrder
   feeDueDate?: Prisma.SortOrder
@@ -536,6 +557,7 @@ export type StudentMinOrderByAggregateInput = {
   programmeId?: Prisma.SortOrder
   academicYear?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  financialStatus?: Prisma.SortOrder
   feeAmount?: Prisma.SortOrder
   totalFees?: Prisma.SortOrder
   feeDueDate?: Prisma.SortOrder
@@ -621,6 +643,10 @@ export type EnumEnrolmentStatusFieldUpdateOperationsInput = {
   set?: $Enums.EnrolmentStatus
 }
 
+export type EnumFinancialStatusFieldUpdateOperationsInput = {
+  set?: $Enums.FinancialStatus
+}
+
 export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
 }
@@ -647,6 +673,7 @@ export type StudentCreateWithoutGradesInput = {
   dob: Date | string
   academicYear: string
   status?: $Enums.EnrolmentStatus
+  financialStatus?: $Enums.FinancialStatus
   feeAmount: number
   totalFees?: number
   feeDueDate?: Date | string | null
@@ -665,6 +692,7 @@ export type StudentUncheckedCreateWithoutGradesInput = {
   programmeId?: string | null
   academicYear: string
   status?: $Enums.EnrolmentStatus
+  financialStatus?: $Enums.FinancialStatus
   feeAmount: number
   totalFees?: number
   feeDueDate?: Date | string | null
@@ -697,6 +725,7 @@ export type StudentUpdateWithoutGradesInput = {
   dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   academicYear?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumEnrolmentStatusFieldUpdateOperationsInput | $Enums.EnrolmentStatus
+  financialStatus?: Prisma.EnumFinancialStatusFieldUpdateOperationsInput | $Enums.FinancialStatus
   feeAmount?: Prisma.FloatFieldUpdateOperationsInput | number
   totalFees?: Prisma.FloatFieldUpdateOperationsInput | number
   feeDueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -715,6 +744,7 @@ export type StudentUncheckedUpdateWithoutGradesInput = {
   programmeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   academicYear?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumEnrolmentStatusFieldUpdateOperationsInput | $Enums.EnrolmentStatus
+  financialStatus?: Prisma.EnumFinancialStatusFieldUpdateOperationsInput | $Enums.FinancialStatus
   feeAmount?: Prisma.FloatFieldUpdateOperationsInput | number
   totalFees?: Prisma.FloatFieldUpdateOperationsInput | number
   feeDueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -731,6 +761,7 @@ export type StudentCreateWithoutPaymentsInput = {
   dob: Date | string
   academicYear: string
   status?: $Enums.EnrolmentStatus
+  financialStatus?: $Enums.FinancialStatus
   feeAmount: number
   totalFees?: number
   feeDueDate?: Date | string | null
@@ -749,6 +780,7 @@ export type StudentUncheckedCreateWithoutPaymentsInput = {
   programmeId?: string | null
   academicYear: string
   status?: $Enums.EnrolmentStatus
+  financialStatus?: $Enums.FinancialStatus
   feeAmount: number
   totalFees?: number
   feeDueDate?: Date | string | null
@@ -781,6 +813,7 @@ export type StudentUpdateWithoutPaymentsInput = {
   dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   academicYear?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumEnrolmentStatusFieldUpdateOperationsInput | $Enums.EnrolmentStatus
+  financialStatus?: Prisma.EnumFinancialStatusFieldUpdateOperationsInput | $Enums.FinancialStatus
   feeAmount?: Prisma.FloatFieldUpdateOperationsInput | number
   totalFees?: Prisma.FloatFieldUpdateOperationsInput | number
   feeDueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -799,6 +832,7 @@ export type StudentUncheckedUpdateWithoutPaymentsInput = {
   programmeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   academicYear?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumEnrolmentStatusFieldUpdateOperationsInput | $Enums.EnrolmentStatus
+  financialStatus?: Prisma.EnumFinancialStatusFieldUpdateOperationsInput | $Enums.FinancialStatus
   feeAmount?: Prisma.FloatFieldUpdateOperationsInput | number
   totalFees?: Prisma.FloatFieldUpdateOperationsInput | number
   feeDueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -815,6 +849,7 @@ export type StudentCreateWithoutProgrammeInput = {
   dob: Date | string
   academicYear: string
   status?: $Enums.EnrolmentStatus
+  financialStatus?: $Enums.FinancialStatus
   feeAmount: number
   totalFees?: number
   feeDueDate?: Date | string | null
@@ -832,6 +867,7 @@ export type StudentUncheckedCreateWithoutProgrammeInput = {
   dob: Date | string
   academicYear: string
   status?: $Enums.EnrolmentStatus
+  financialStatus?: $Enums.FinancialStatus
   feeAmount: number
   totalFees?: number
   feeDueDate?: Date | string | null
@@ -879,6 +915,7 @@ export type StudentScalarWhereInput = {
   programmeId?: Prisma.StringNullableFilter<"Student"> | string | null
   academicYear?: Prisma.StringFilter<"Student"> | string
   status?: Prisma.EnumEnrolmentStatusFilter<"Student"> | $Enums.EnrolmentStatus
+  financialStatus?: Prisma.EnumFinancialStatusFilter<"Student"> | $Enums.FinancialStatus
   feeAmount?: Prisma.FloatFilter<"Student"> | number
   totalFees?: Prisma.FloatFilter<"Student"> | number
   feeDueDate?: Prisma.DateTimeNullableFilter<"Student"> | Date | string | null
@@ -893,6 +930,7 @@ export type StudentCreateWithoutSubmissionsInput = {
   dob: Date | string
   academicYear: string
   status?: $Enums.EnrolmentStatus
+  financialStatus?: $Enums.FinancialStatus
   feeAmount: number
   totalFees?: number
   feeDueDate?: Date | string | null
@@ -911,6 +949,7 @@ export type StudentUncheckedCreateWithoutSubmissionsInput = {
   programmeId?: string | null
   academicYear: string
   status?: $Enums.EnrolmentStatus
+  financialStatus?: $Enums.FinancialStatus
   feeAmount: number
   totalFees?: number
   feeDueDate?: Date | string | null
@@ -943,6 +982,7 @@ export type StudentUpdateWithoutSubmissionsInput = {
   dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   academicYear?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumEnrolmentStatusFieldUpdateOperationsInput | $Enums.EnrolmentStatus
+  financialStatus?: Prisma.EnumFinancialStatusFieldUpdateOperationsInput | $Enums.FinancialStatus
   feeAmount?: Prisma.FloatFieldUpdateOperationsInput | number
   totalFees?: Prisma.FloatFieldUpdateOperationsInput | number
   feeDueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -961,6 +1001,7 @@ export type StudentUncheckedUpdateWithoutSubmissionsInput = {
   programmeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   academicYear?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumEnrolmentStatusFieldUpdateOperationsInput | $Enums.EnrolmentStatus
+  financialStatus?: Prisma.EnumFinancialStatusFieldUpdateOperationsInput | $Enums.FinancialStatus
   feeAmount?: Prisma.FloatFieldUpdateOperationsInput | number
   totalFees?: Prisma.FloatFieldUpdateOperationsInput | number
   feeDueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -977,6 +1018,7 @@ export type StudentCreateManyProgrammeInput = {
   dob: Date | string
   academicYear: string
   status?: $Enums.EnrolmentStatus
+  financialStatus?: $Enums.FinancialStatus
   feeAmount: number
   totalFees?: number
   feeDueDate?: Date | string | null
@@ -991,6 +1033,7 @@ export type StudentUpdateWithoutProgrammeInput = {
   dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   academicYear?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumEnrolmentStatusFieldUpdateOperationsInput | $Enums.EnrolmentStatus
+  financialStatus?: Prisma.EnumFinancialStatusFieldUpdateOperationsInput | $Enums.FinancialStatus
   feeAmount?: Prisma.FloatFieldUpdateOperationsInput | number
   totalFees?: Prisma.FloatFieldUpdateOperationsInput | number
   feeDueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1008,6 +1051,7 @@ export type StudentUncheckedUpdateWithoutProgrammeInput = {
   dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   academicYear?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumEnrolmentStatusFieldUpdateOperationsInput | $Enums.EnrolmentStatus
+  financialStatus?: Prisma.EnumFinancialStatusFieldUpdateOperationsInput | $Enums.FinancialStatus
   feeAmount?: Prisma.FloatFieldUpdateOperationsInput | number
   totalFees?: Prisma.FloatFieldUpdateOperationsInput | number
   feeDueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1025,6 +1069,7 @@ export type StudentUncheckedUpdateManyWithoutProgrammeInput = {
   dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   academicYear?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumEnrolmentStatusFieldUpdateOperationsInput | $Enums.EnrolmentStatus
+  financialStatus?: Prisma.EnumFinancialStatusFieldUpdateOperationsInput | $Enums.FinancialStatus
   feeAmount?: Prisma.FloatFieldUpdateOperationsInput | number
   totalFees?: Prisma.FloatFieldUpdateOperationsInput | number
   feeDueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1089,6 +1134,7 @@ export type StudentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   programmeId?: boolean
   academicYear?: boolean
   status?: boolean
+  financialStatus?: boolean
   feeAmount?: boolean
   totalFees?: boolean
   feeDueDate?: boolean
@@ -1109,6 +1155,7 @@ export type StudentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   programmeId?: boolean
   academicYear?: boolean
   status?: boolean
+  financialStatus?: boolean
   feeAmount?: boolean
   totalFees?: boolean
   feeDueDate?: boolean
@@ -1125,6 +1172,7 @@ export type StudentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   programmeId?: boolean
   academicYear?: boolean
   status?: boolean
+  financialStatus?: boolean
   feeAmount?: boolean
   totalFees?: boolean
   feeDueDate?: boolean
@@ -1141,13 +1189,14 @@ export type StudentSelectScalar = {
   programmeId?: boolean
   academicYear?: boolean
   status?: boolean
+  financialStatus?: boolean
   feeAmount?: boolean
   totalFees?: boolean
   feeDueDate?: boolean
   createdAt?: boolean
 }
 
-export type StudentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "studentId" | "fullName" | "email" | "dob" | "programmeId" | "academicYear" | "status" | "feeAmount" | "totalFees" | "feeDueDate" | "createdAt", ExtArgs["result"]["student"]>
+export type StudentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "studentId" | "fullName" | "email" | "dob" | "programmeId" | "academicYear" | "status" | "financialStatus" | "feeAmount" | "totalFees" | "feeDueDate" | "createdAt", ExtArgs["result"]["student"]>
 export type StudentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   programme?: boolean | Prisma.Student$programmeArgs<ExtArgs>
   grades?: boolean | Prisma.Student$gradesArgs<ExtArgs>
@@ -1179,6 +1228,7 @@ export type $StudentPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     programmeId: string | null
     academicYear: string
     status: $Enums.EnrolmentStatus
+    financialStatus: $Enums.FinancialStatus
     feeAmount: number
     totalFees: number
     feeDueDate: Date | null
@@ -1618,6 +1668,7 @@ export interface StudentFieldRefs {
   readonly programmeId: Prisma.FieldRef<"Student", 'String'>
   readonly academicYear: Prisma.FieldRef<"Student", 'String'>
   readonly status: Prisma.FieldRef<"Student", 'EnrolmentStatus'>
+  readonly financialStatus: Prisma.FieldRef<"Student", 'FinancialStatus'>
   readonly feeAmount: Prisma.FieldRef<"Student", 'Float'>
   readonly totalFees: Prisma.FieldRef<"Student", 'Float'>
   readonly feeDueDate: Prisma.FieldRef<"Student", 'DateTime'>

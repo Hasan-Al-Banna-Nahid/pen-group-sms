@@ -7,9 +7,9 @@ export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
 
-    // Define Zod schema for query parameters
+    // Define Zod schema for query parameters with defaults
     const querySchema = z.object({
-      query: z.string().optional(),
+      query: z.string().default(""),
       enrolmentStatus: z
         .enum(["ENROLLED", "WITHDRAWN", "COMPLETED"])
         .optional(),
@@ -18,42 +18,47 @@ export async function GET(req: Request) {
         .optional(),
     });
 
-    const validatedQueryParams = querySchema.safeParse(
+    const parsedParams = querySchema.safeParse(
       Object.fromEntries(searchParams),
     );
 
-    if (!validatedQueryParams.success) {
+    if (!parsedParams.success) {
       return NextResponse.json(
         {
           error: "Invalid query parameters",
-          details: validatedQueryParams.error,
+          details: parsedParams.error.flatten(),
         },
         { status: 400 },
       );
     }
 
-    const { query, enrolmentStatus, financialStatus } =
-      validatedQueryParams.data;
+    const { query, enrolmentStatus, financialStatus } = parsedParams.data;
 
-    let students = await prisma.student.findMany({
-      where: {
-        AND: [
-          enrolmentStatus ? { status: enrolmentStatus } : {},
-          query
-            ? {
-                OR: [
-                  { fullName: { contains: query, mode: "insensitive" } },
-                  { studentId: { contains: query, mode: "insensitive" } },
-                  {
-                    programme: {
-                      name: { contains: query, mode: "insensitive" },
-                    },
-                  },
-                ],
-              }
-            : {},
+    // Build dynamic where clause
+    const where: any = {
+      AND: [],
+    };
+
+    if (enrolmentStatus) {
+      where.AND.push({ status: enrolmentStatus });
+    }
+
+    if (query) {
+      where.AND.push({
+        OR: [
+          { fullName: { contains: query, mode: "insensitive" } },
+          { studentId: { contains: query, mode: "insensitive" } },
+          {
+            programme: {
+              name: { contains: query, mode: "insensitive" },
+            },
+          },
         ],
-      },
+      });
+    }
+
+    const students = await prisma.student.findMany({
+      where: where.AND.length > 0 ? where : {},
       include: {
         payments: {
           select: {
@@ -71,53 +76,48 @@ export async function GET(req: Request) {
           },
         },
       },
+      orderBy: { createdAt: "desc" },
     });
 
-    // Filter by financial status after calculating it
+    // Post-query filtering for financial status
+    let filteredStudents = students;
     if (financialStatus) {
-      students = students.filter((student) => {
-        const totalFees = student.totalFees;
+      filteredStudents = students.filter((student: any) => {
         const totalPaid = student.payments.reduce(
-          (sum, payment) => sum + payment.amount,
+          (sum: any, p: any) => sum + p.amount,
           0,
         );
-        const studentFinancialStatus = getFinancialStatus(
-          totalFees,
+        const finStatus = getFinancialStatus(
+          student.totalFees,
           totalPaid,
           student.feeDueDate,
         );
 
-        if (financialStatus === "SETTLED") {
-          return studentFinancialStatus.status === "SETTLED";
-        } else if (financialStatus === "OUTSTANDING") {
-          return (
-            studentFinancialStatus.status === "OUTSTANDING" &&
-            !studentFinancialStatus.isCritical
-          );
-        } else if (financialStatus === "CRITICAL_OVERDUE") {
-          return studentFinancialStatus.isCritical;
-        }
-        return false;
+        if (financialStatus === "SETTLED")
+          return finStatus.status === "SETTLED";
+        if (financialStatus === "OUTSTANDING")
+          return finStatus.status === "OUTSTANDING" && !finStatus.isCritical;
+        if (financialStatus === "CRITICAL_OVERDUE") return finStatus.isCritical;
+        return true;
       });
     }
 
-    // Format the students to include financial status
-    const formattedStudents = students.map((student) => {
-      const totalFees = student.totalFees;
+    const formattedStudents = filteredStudents.map((student: any) => {
       const totalPaid = student.payments.reduce(
-        (sum, payment) => sum + payment.amount,
+        (sum: any, p: any) => sum + p.amount,
         0,
       );
       const financialInfo = getFinancialStatus(
-        totalFees,
+        student.totalFees,
         totalPaid,
         student.feeDueDate,
       );
+
       return {
         ...student,
         financialStatus: financialInfo.status,
         isCriticalOverdue: financialInfo.isCritical,
-        isOverdue: financialInfo.isOverdue, // Added for UI if needed
+        isOverdue: financialInfo.isOverdue,
         programmeName: student.programme?.name,
         balance: financialInfo.balance,
         withheldCount: student.grades.length,
@@ -126,11 +126,23 @@ export async function GET(req: Request) {
 
     return NextResponse.json(formattedStudents);
   } catch (error: any) {
-    console.error("Critical Registry Search API Error:", error);
+    console.error("SEARCH_API_CRITICAL_FAILURE:", error);
+
+    // Handle database connection issues (Prisma v7)
+    if (error.code === "P1001" || error.code === "P1017") {
+      return NextResponse.json(
+        {
+          error: "Service Unavailable",
+          message: "Database connection failed. Please try again in a moment.",
+        },
+        { status: 503 },
+      );
+    }
+
     return NextResponse.json(
       {
         error: "Internal Server Error",
-        message: error.message || "An unexpected error occurred.",
+        message: error.message || "Failed to process search request.",
       },
       { status: 500 },
     );

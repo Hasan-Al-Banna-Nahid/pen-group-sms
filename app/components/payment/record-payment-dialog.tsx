@@ -17,6 +17,8 @@ import { Label } from "@/components/ui/label";
 import { CreditCard, Loader2, CheckCircle2 } from "lucide-react";
 import { useRole } from "@/app/context/role-context";
 
+import { Badge } from "@/components/ui/badge";
+
 interface RecordPaymentDialogProps {
   student: {
     id: string;
@@ -24,6 +26,8 @@ interface RecordPaymentDialogProps {
     studentId: string;
     balance: number;
     financialStatus: string;
+    totalFees?: number;
+    totalPaid?: number;
   };
   trigger?: React.ReactNode;
 }
@@ -35,6 +39,7 @@ export function RecordPaymentDialog({ student, trigger }: RecordPaymentDialogPro
   const { role } = useRole();
   const recordPayment = useRecordPayment();
 
+  // STRICTOR SETTLED LOGIC: Derived from balance or explicit status
   const isSettled = student.balance <= 0 || student.financialStatus === "SETTLED";
 
   const handleRecord = async () => {
@@ -54,26 +59,25 @@ export function RecordPaymentDialog({ student, trigger }: RecordPaymentDialogPro
     }
   };
 
+  if (isSettled && !trigger) {
+    return (
+      <Badge variant="outline" className="h-10 px-4 py-2 border-emerald-200 bg-emerald-50 text-emerald-700 gap-2 font-medium">
+        <CheckCircle2 className="h-4 w-4" />
+        Account Settled
+      </Badge>
+    );
+  }
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         {trigger || (
           <Button 
-            variant={isSettled ? "outline" : "default"} 
-            disabled={isSettled}
-            className={isSettled ? "bg-slate-50 text-slate-400 border-slate-200" : "bg-blue-600 hover:bg-blue-700"}
+            variant="default" 
+            className="bg-blue-600 hover:bg-blue-700 gap-2"
           >
-            {isSettled ? (
-              <span className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-emerald-500" />
-                Account Settled
-              </span>
-            ) : (
-              <span className="flex items-center gap-2">
-                <CreditCard className="h-4 w-4" />
-                {role === "STAFF" ? "Record Payment" : "Pay Now"}
-              </span>
-            )}
+            <CreditCard className="h-4 w-4" />
+            {role === "STAFF" ? "Record Payment" : "Pay Now"}
           </Button>
         )}
       </DialogTrigger>

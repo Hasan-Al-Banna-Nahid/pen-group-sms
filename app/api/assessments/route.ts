@@ -5,22 +5,37 @@ export async function GET() {
   try {
     const assessments = await prisma.assessment.findMany({
       include: {
-        module: true, // Shows module details
+        module: true,
         submissions: {
           include: {
-            student: true, // Shows which student submitted what
+            student: true,
           },
         },
-        grades: true, // CRITICAL FIX: Include grades table to show marks
+        grades: true,
       },
       orderBy: { deadline: "asc" },
     });
 
     return NextResponse.json(assessments);
   } catch (error: any) {
-    console.error("FETCH_ERROR:", error.message);
+    console.error("ASSESSMENT_FETCH_CRITICAL_ERROR:", error);
+    
+    // Handle database connection issues (Prisma v7)
+    if (error.code === "P1001" || error.code === "P1017") {
+      return NextResponse.json(
+        { 
+          error: "Service Unavailable", 
+          message: "Database connection failed. Please try again in a moment." 
+        }, 
+        { status: 503 }
+      );
+    }
+
     return NextResponse.json(
-      { error: "Failed to fetch assessments" },
+      { 
+        error: "Internal Server Error",
+        message: error.message || "An error occurred while fetching assessments." 
+      },
       { status: 500 },
     );
   }
@@ -42,6 +57,19 @@ export async function POST(req: Request) {
     });
     return NextResponse.json(assessment, { status: 201 });
   } catch (error: any) {
+    console.error("ASSESSMENT_CREATE_ERROR:", error);
+
+    // Handle database connection issues (Prisma v7)
+    if (error.code === "P1001" || error.code === "P1017") {
+      return NextResponse.json(
+        { 
+          error: "Service Unavailable", 
+          message: "Database connection failed. Please try again in a moment." 
+        }, 
+        { status: 503 }
+      );
+    }
+
     return NextResponse.json({ error: "Database error" }, { status: 500 });
   }
 }

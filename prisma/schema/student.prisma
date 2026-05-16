@@ -7,8 +7,9 @@ model Student {
     programmeId  String?
     programme    Programme?      @relation(fields: [programmeId], references: [id])
     academicYear String
-    status       EnrolmentStatus @default(ENROLLED)
-    feeAmount    Float
+    status          EnrolmentStatus @default(ENROLLED)
+    financialStatus FinancialStatus @default(OUTSTANDING)
+    feeAmount       Float
     totalFees    Float           @default(0.0)
     feeDueDate   DateTime?
     grades       Grade[]

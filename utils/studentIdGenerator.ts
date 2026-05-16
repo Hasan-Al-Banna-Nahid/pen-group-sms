@@ -3,21 +3,21 @@
 import { PrismaClient } from '@/prisma/lib/generated/prisma/client';
 
 async function getNextStudentSequence(tx: PrismaClient): Promise<number> {
-    const currentYear = new Date().getFullYear();
+    const academicYear = 2026;
     let yearlySequence = await tx.yearlySequence.findUnique({
-        where: { year: currentYear },
+        where: { year: academicYear },
     });
 
     if (!yearlySequence) {
         yearlySequence = await tx.yearlySequence.create({
-            data: { year: currentYear, sequenceNumber: 0 },
+            data: { year: academicYear, sequenceNumber: 0 },
         });
     }
 
     const nextSequence = yearlySequence.sequenceNumber + 1;
 
     await tx.yearlySequence.update({
-        where: { year: currentYear },
+        where: { year: academicYear },
         data: { sequenceNumber: nextSequence },
     });
 
@@ -25,7 +25,7 @@ async function getNextStudentSequence(tx: PrismaClient): Promise<number> {
 }
 
 export async function generateStudentId(tx: any): Promise<string> {
-    const year = new Date().getFullYear().toString();
+    const year = "2026";
     const sequence = await getNextStudentSequence(tx);
     const paddedSequence = sequence.toString().padStart(4, '0');
 

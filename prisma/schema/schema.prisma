@@ -1,18 +1,13 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
 generator client {
   provider = "prisma-client"
-  output   = "../lib/generated/prisma"
+  output   = "../app/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
 }
-
-/// @MAPPING ./student.prisma
-/// @MAPPING ./assessment.prisma
-/// @MAPPING ./grade.prisma
-/// @MAPPING ./module.prisma
-/// @MAPPING ./payment.prisma
-/// @MAPPING ./submission.prisma
-/// @MAPPING ./enums.prisma
-/// @MAPPING ./programme.prisma
-/// @MAPPING ./yearlySequence.prisma

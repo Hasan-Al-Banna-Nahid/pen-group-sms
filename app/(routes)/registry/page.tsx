@@ -79,12 +79,15 @@ export default function RegistryDashboard() {
   const totalOutstandingRevenue = students.reduce((sum, student) => {
     return sum + (student.financialStatus !== "SETTLED" ? student.balance : 0);
   }, 0);
-  const numberOfWithheldResults = students.reduce((sum, student: any) => sum + (student.withheldCount || 0), 0);
+  const numberOfWithheldResults = students.reduce(
+    (sum, student: any) => sum + (student.withheldCount || 0),
+    0,
+  );
 
   // Authorization Check
   if (role !== "STAFF") {
     return (
-      <div className="flex items-center justify-center h-full text-lg text-gray-500">
+      <div className="mt-28 flex items-center justify-center h-full text-lg text-gray-500">
         Access Denied: You must be a Staff member to view this page.
       </div>
     );

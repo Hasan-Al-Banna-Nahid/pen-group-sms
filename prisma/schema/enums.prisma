@@ -5,6 +5,12 @@ enum EnrolmentStatus {
     COMPLETED
 }
 
+enum FinancialStatus {
+    SETTLED
+    OUTSTANDING
+    CRITICAL_OVERDUE
+}
+
 enum Classification {
     DISTINCTION
     MERIT

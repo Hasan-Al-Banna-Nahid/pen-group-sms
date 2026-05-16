@@ -144,6 +144,7 @@ export const StudentScalarFieldEnum = {
   programmeId: 'programmeId',
   academicYear: 'academicYear',
   status: 'status',
+  financialStatus: 'financialStatus',
   feeAmount: 'feeAmount',
   totalFees: 'totalFees',
   feeDueDate: 'feeDueDate',

@@ -1109,6 +1109,7 @@ export const StudentScalarFieldEnum = {
   programmeId: 'programmeId',
   academicYear: 'academicYear',
   status: 'status',
+  financialStatus: 'financialStatus',
   feeAmount: 'feeAmount',
   totalFees: 'totalFees',
   feeDueDate: 'feeDueDate',
@@ -1260,6 +1261,20 @@ export type EnumEnrolmentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$
  * Reference to a field of type 'EnrolmentStatus[]'
  */
 export type ListEnumEnrolmentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EnrolmentStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'FinancialStatus'
+ */
+export type EnumFinancialStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FinancialStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'FinancialStatus[]'
+ */
+export type ListEnumFinancialStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FinancialStatus[]'>
     
 
 /**
