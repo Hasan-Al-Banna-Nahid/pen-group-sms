@@ -20,6 +20,8 @@ import {
 } from "@/components/ui/select";
 import { useRole } from "@/app/context/role-context";
 import { cn } from "@/lib/utils";
+// Imported your global loader component to maintain system-wide UI consistency
+import GlobalLoader from "@/app/loading";
 
 interface Student {
   id: string;
@@ -39,18 +41,20 @@ export default function RegistryDashboard() {
   const [students, setStudents] = useState<Student[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
 
-  // FIX: Initialize with "all" instead of "" to prevent Radix UI runtime errors
+  // 1. New local state to trace the native fetch cycle lifecycle
+  const [isFetching, setIsFetching] = useState<boolean>(true);
+
   const [enrolmentFilter, setEnrolmentFilter] = useState<string>("all");
   const [financialFilter, setFinancialFilter] = useState<string>("all");
 
   useEffect(() => {
     const fetchStudents = async () => {
+      // Trigger loader animation as soon as any sync dependencies shift
+      setIsFetching(true);
       const queryParams = new URLSearchParams();
 
-      // Add search term if exists
       if (searchTerm) queryParams.append("query", searchTerm);
 
-      // FIX: Only append to URL if the value is not "all"
       if (enrolmentFilter !== "all") {
         queryParams.append("enrolmentStatus", enrolmentFilter);
       }
@@ -68,11 +72,28 @@ export default function RegistryDashboard() {
         setStudents(data);
       } catch (error) {
         console.error("Fetch error:", error);
+      } finally {
+        // Disengage full screen loader layout cleanly
+        setIsFetching(false);
       }
     };
 
     fetchStudents();
   }, [searchTerm, enrolmentFilter, financialFilter]);
+
+  // Authorization Check (Evaluated first to protect raw UI leaks)
+  if (role !== "STAFF") {
+    return (
+      <div className="mt-28 flex items-center justify-center h-full text-lg text-gray-500">
+        Access Denied: You must be a Staff member to view this page.
+      </div>
+    );
+  }
+
+  // 2. Intercept and project the global shell screen wrapper until active transactions close
+  if (isFetching) {
+    return <GlobalLoader />;
+  }
 
   // Quick Stats Calculation
   const totalStudents = students.length;
@@ -83,15 +104,6 @@ export default function RegistryDashboard() {
     (sum, student: any) => sum + (student.withheldCount || 0),
     0,
   );
-
-  // Authorization Check
-  if (role !== "STAFF") {
-    return (
-      <div className="mt-28 flex items-center justify-center h-full text-lg text-gray-500">
-        Access Denied: You must be a Staff member to view this page.
-      </div>
-    );
-  }
 
   return (
     <div className="container mx-auto py-8">
@@ -140,7 +152,6 @@ export default function RegistryDashboard() {
             <SelectValue placeholder="Enrolment Status" />
           </SelectTrigger>
           <SelectContent>
-            {/* FIX: Set value to "all" instead of "" */}
             <SelectItem value="all">All Enrolment Statuses</SelectItem>
             <SelectItem value="ENROLLED">Enrolled</SelectItem>
             <SelectItem value="WITHDRAWN">Withdrawn</SelectItem>
@@ -157,7 +168,6 @@ export default function RegistryDashboard() {
             <SelectValue placeholder="Financial Status" />
           </SelectTrigger>
           <SelectContent>
-            {/* FIX: Set value to "all" instead of "" */}
             <SelectItem value="all">All Financial Statuses</SelectItem>
             <SelectItem value="SETTLED">Settled</SelectItem>
             <SelectItem value="OUTSTANDING">Outstanding</SelectItem>

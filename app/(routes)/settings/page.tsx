@@ -2,12 +2,33 @@
 
 import { useRole } from "@/app/context/role-context";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Settings as SettingsIcon, ShieldCheck, User, Database } from "lucide-react";
+import {
+  Settings as SettingsIcon,
+  ShieldCheck,
+  User,
+  Database,
+} from "lucide-react";
+// Imported your global loader component to maintain system-wide UI consistency
+import GlobalLoader from "@/app/loading";
 
 export default function SettingsPage() {
-  const { role, toggleRole } = useRole();
+  // Destructured 'isLoading' (or 'isPending') from your custom context if available.
+  // If your context doesn't expose a loading state for transitions, the global wrapper
+  // safely evaluates runtime availability.
+  const { role, toggleRole, isLoading } = useRole();
+
+  // 1. Intercept layout rendering if the global context is executing a state synchronization
+  if (isLoading) {
+    return <GlobalLoader />;
+  }
 
   return (
     <div className="container mx-auto py-10 pt-24 max-w-4xl space-y-8">
@@ -17,7 +38,9 @@ export default function SettingsPage() {
         </div>
         <div>
           <h1 className="text-3xl font-bold tracking-tight">System Settings</h1>
-          <p className="text-slate-500">Manage global configurations and simulate environment variables.</p>
+          <p className="text-slate-500">
+            Manage global configurations and simulate environment variables.
+          </p>
         </div>
       </div>
 
@@ -31,10 +54,14 @@ export default function SettingsPage() {
                   Role Gating Simulation
                 </CardTitle>
                 <CardDescription>
-                  Switch between Staff and Student views to test permissions and UI masking.
+                  Switch between Staff and Student views to test permissions and
+                  UI masking.
                 </CardDescription>
               </div>
-              <Badge variant={role === "STAFF" ? "default" : "secondary"} className="px-3 py-1">
+              <Badge
+                variant={role === "STAFF" ? "default" : "secondary"}
+                className="px-3 py-1"
+              >
                 {role}
               </Badge>
             </div>
@@ -42,19 +69,27 @@ export default function SettingsPage() {
           <CardContent className="pt-6">
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 p-4 rounded-xl border border-slate-100 bg-white">
               <div className="flex items-center gap-4">
-                <div className={`p-3 rounded-full ${role === "STAFF" ? "bg-blue-100 text-blue-700" : "bg-orange-100 text-orange-700"}`}>
-                  {role === "STAFF" ? <ShieldCheck className="h-6 w-6" /> : <User className="h-6 w-6" />}
+                <div
+                  className={`p-3 rounded-full ${role === "STAFF" ? "bg-blue-100 text-blue-700" : "bg-orange-100 text-orange-700"}`}
+                >
+                  {role === "STAFF" ? (
+                    <ShieldCheck className="h-6 w-6" />
+                  ) : (
+                    <User className="h-6 w-6" />
+                  )}
                 </div>
                 <div>
-                  <p className="font-semibold text-slate-900">Current active role: {role}</p>
+                  <p className="font-semibold text-slate-900">
+                    Current active role: {role}
+                  </p>
                   <p className="text-sm text-slate-500">
-                    {role === "STAFF" 
-                      ? "Full administrative access to registry, payments, and results." 
+                    {role === "STAFF"
+                      ? "Full administrative access to registry, payments, and results."
                       : "Limited access to personal data and student-specific interfaces."}
                   </p>
                 </div>
               </div>
-              <Button 
+              <Button
                 onClick={toggleRole}
                 className="w-full md:w-auto bg-slate-900 hover:bg-slate-800 transition-all duration-300 shadow-lg shadow-slate-200"
               >
@@ -81,18 +116,24 @@ export default function SettingsPage() {
               <div className="space-y-1">
                 <p className="font-medium text-slate-900">Database Seeding</p>
                 <p className="text-sm text-slate-500 text-balance">
-                  Populate the database with sample students, programmes, and assessments.
+                  Populate the database with sample students, programmes, and
+                  assessments.
                 </p>
               </div>
-              <Button variant="outline" className="border-slate-200 hover:bg-slate-50">
+              <Button
+                variant="outline"
+                className="border-slate-200 hover:bg-slate-50"
+              >
                 Trigger Seed
               </Button>
             </div>
-            
+
             <div className="p-4 bg-slate-50 rounded-xl border border-slate-100">
               <div className="flex items-center gap-2 text-slate-600 mb-2">
                 <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-xs font-semibold uppercase tracking-wider">System Status</span>
+                <span className="text-xs font-semibold uppercase tracking-wider">
+                  System Status
+                </span>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="space-y-1">
@@ -101,7 +142,9 @@ export default function SettingsPage() {
                 </div>
                 <div className="space-y-1">
                   <p className="text-xs text-slate-400">Prisma Client</p>
-                  <p className="text-sm font-medium text-emerald-600">Connected</p>
+                  <p className="text-sm font-medium text-emerald-600">
+                    Connected
+                  </p>
                 </div>
                 <div className="space-y-1">
                   <p className="text-xs text-slate-400">App Router</p>

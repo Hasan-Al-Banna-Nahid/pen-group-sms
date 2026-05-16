@@ -6,20 +6,31 @@ type Role = "STAFF" | "STUDENT";
 
 interface RoleContextType {
   role: Role;
+  isLoading: boolean; // Added isLoading type to the context contract
   toggleRole: () => void;
 }
 
 const RoleContext = createContext<RoleContextType | undefined>(undefined);
 
 export function RoleProvider({ children }: { children: React.ReactNode }) {
-  const [role, setRole] = useState<Role>("STAFF"); // Default role is STAFF [cite: 38]
+  const [role, setRole] = useState<Role>("STAFF");
+  // 1. New loading state to capture role switching transitions globally
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const toggleRole = () => {
-    setRole((prev) => (prev === "STAFF" ? "STUDENT" : "STAFF"));
+    // Engages full-screen global loader immediately upon user click
+    setIsLoading(true);
+
+    // Simulated short delay to allow Next.js app router trees to clean up and remount components safely
+    setTimeout(() => {
+      setRole((prev) => (prev === "STAFF" ? "STUDENT" : "STAFF"));
+      setIsLoading(false);
+    }, 400); // 400ms is optimal for a smooth fade-in/fade-out loader transition
   };
 
   return (
-    <RoleContext.Provider value={{ role, toggleRole }}>
+    // 2. Bound the new isLoading reactive token into the provider instance value
+    <RoleContext.Provider value={{ role, isLoading, toggleRole }}>
       {children}
     </RoleContext.Provider>
   );
